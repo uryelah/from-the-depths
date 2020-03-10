@@ -1,32 +1,35 @@
 import Phaser from "phaser";
-import logoImg from "./assets/logo.png";
+//Scenes
+import SceneMain from './SceneMain';
+import SceneGameOver from './SceneGameOver';
+import SceneMainMenu from './SceneMainMenu';
+import ScenePreMenu from './ScenePreMenu';
+import TentacleTest from './TentacleTest';
+import { Player } from './Entities';
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.WEBGL,
   parent: "phaser-example",
-  width: 800,
-  height: 600,
-  scene: {
-    preload: preload,
-    create: create
-  }
+  width: 480,
+  height: 640,
+  backgroundColor: "#000000",
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { x: 0, y: 0 },
+      fps: 30
+    }
+  },
+  scene: [
+    //SceneMainMenu,
+    //SceneMain,
+    //SceneGameOver
+    TentacleTest
+  ],
+  pixelArt: true,
+  roundPixels: true
 };
 
 const game = new Phaser.Game(config);
 
-function preload() {
-  this.load.image("logo", logoImg);
-}
-
-function create() {
-  const logo = this.add.image(400, 150, "logo");
-
-  this.tweens.add({
-    targets: logo,
-    y: 450,
-    duration: 2000,
-    ease: "Power2",
-    yoyo: true,
-    loop: -1
-  });
-}
+export default game;
