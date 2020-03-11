@@ -19,6 +19,9 @@ let splat;
 let grab = 0;
 let havePower = true;
 let clickDirection;
+let shot;
+let downer;
+let carry = false;
 class PlayerSplat {
   constructor(x, y, sprite) {
     this.x = x;
@@ -124,6 +127,12 @@ class TentacleTest extends Phaser.Scene {
       }
     });
 
+    downer = this.add.sprite(this.mainContainer.x,0,"logo");
+    downer.setScale(0.09)
+    //downer.setGravityY(400);
+    downer.fall = true;
+    shot = downer;
+
     this.input.on('pointerup', e => {
       mouseDown = false;
       grab = 0;
@@ -131,21 +140,23 @@ class TentacleTest extends Phaser.Scene {
 
       setTimeout(() => {
         havePower = true;
-      }, 3000);
+      }, 1500);
 
-      let splatter = this.physics.add.sprite(this.mainContainer.x,this.sys.game.config.height,"logo");
-      splatter.setScale(0.09)
-      splatter.setGravityY(-200);
-      this.playerSplats.add(splatter);
-      splatter.setImmovable(true);
-      let downer = this.physics.add.sprite(this.mainContainer.x,0,"logo");
-      downer.setScale(0.09)
-      downer.setGravityY(100);
-      downer.body.setImmovable(true);
+      if (!carry) {
+        console.log(grab)
+        let splatter = this.physics.add.sprite(this.mainContainer.x,this.sys.game.config.height,"logo");
+        splatter.setScale(0.09)
+        splatter.setGravityY(-200);
+        this.playerSplats.add(splatter);
+      }
+      /*
       this.physics.add.collider(splatter, downer, () => {
-        splatter.setGravityY(-100)
         downer.destroy();
       }, null, this);
+      this.physics.add.collider(downer, this.mainContainer, () => {
+        console.log('doh')
+      }, null, this);
+      */
     }, this);
 
     this.input.on('pointerdown', e => {
@@ -178,7 +189,6 @@ class TentacleTest extends Phaser.Scene {
           }
       });
     } else if (!moving) {
-      console.log('here')
       if (this.mainContainer.rotation < goalAngle) {
         this.mainContainer.rotation += 0.1;
       } else {
@@ -202,16 +212,34 @@ class TentacleTest extends Phaser.Scene {
       });
  
     }
-/*
-    while (Math.abs(Math.abs(this.mainContainer.rotation) - Math.abs(goalAngle)) > 0.05) {
-      console.log(this.mainContainer.rotation)
-      if (this.mainContainer.rotation < goalAngle) {
-        this.mainContainer.rotation += 0.005;
-      } else {
-        this.mainContainer.rotation -= 0.005;
-      }
+
+    if (shot.y > this.sys.game.config.height) {
+      shot.destroy();
+      carry = null;
+      shot = false;
     }
-*/
+
+    if (shot) {
+      this.playerSplats.children.entries.forEach((splat) => {
+        if (Math.abs(splat.x - shot.x) < 20 && 
+        shot.y - splat.y > 2) {
+          shot.destroy();
+          carry = null;
+          shot = false;
+          splat.destroy();
+        }
+      });
+    }
+
+    if (!carry && !shot) {
+      console.log('spawn new')
+      downer = this.add.sprite(200,0,"logo");
+      downer.setScale(0.09)
+      //downer.setGravityY(400);
+      downer.fall = true;
+      shot = downer;
+    }
+
     }, 1000/10)
 
   }
@@ -224,31 +252,74 @@ class TentacleTest extends Phaser.Scene {
       }
     });
 
+    // shot gravity
+    if (shot && shot.fall === true) {
+      shot.y += 2;
+      if (Math.random() < 0.5) {
+        shot.x -= 5;
+      } else {
+        shot.x += 5;
+      }
+    }
+
+    
+    if (mouseDown && shot && this.containers[2].rotation >= 0.1) {
+      let fallX = this.containers[2].localTransform.matrix[4];
+      let fallY = this.containers[2].localTransform.matrix[5];
+      if (fallY - shot.y < 50 &&
+        Math.abs(fallX - shot.x) < 50) {
+        shot.fall = false;
+        carry = shot;
+        //shot.destroy();
+        //shot = false;
+        return
+      }
+    }
+
+    if (carry) {
+      shot.y = this.containers[2].localTransform.matrix[5] - 25;
+      shot.x = this.containers[2].localTransform.matrix[4];
+    }
+
     if (havePower && mouseDown && grab < 0.04) {
       grab += 0.001;
-      console.log(grab)
-      this.containers.forEach((container, i) => {
-        if (i < 5) {
-          if (clickDirection < 0) {
-            container.rotation -= grab * (2);
-          } else {
-            container.rotation += grab * (2);
+      if (true) {
+        this.containers.forEach((container, i, arr) => {
+          if(i === 2 && Math.abs(container.rotation) > 1.1) {
+            if (carry) {
+              carry.destroy();
+              console.log('killed');
+              carry = null;
+              shot = false;
+            } else if (Math.abs(arr[0].y - shot.y) < 40 && Math.abs(arr[0].x - shot.x) < 50) {
+              console.log('on reach');
+              shot.destroy();
+              shot = false;
+              console.log('killed');
+            }
           }
-          //container.displayHeight += grab;
-        } else if (i < 9) {
-          if (clickDirection < 0) {
-            container.rotation += 2 * grab;
+          if (i < 5) {
+            if (clickDirection < 0) {
+              container.rotation -= grab * (2);
+            } else {
+              container.rotation += grab * (2);
+            }
+            //container.displayHeight += grab;
+          } else if (i < 9) {
+            if (clickDirection < 0) {
+              container.rotation += 2 * grab;
+            } else {
+              container.rotation -= 2 * grab;
+            }
           } else {
-            container.rotation -= 2 * grab;
+            if (clickDirection < 0) {
+              container.rotation += grab/1.8;
+            } else {
+              container.rotation -= grab/1.8;
+            }
           }
-        } else {
-          if (clickDirection < 0) {
-            container.rotation += grab/1.8;
-          } else {
-            container.rotation -= grab/1.8;
-          }
-        }
-      });
+        });
+      }
     }
   }
 }
