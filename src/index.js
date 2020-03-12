@@ -8,6 +8,12 @@ import TentacleTest from './TentacleTest';
 import LeaderBoard from './LeaderBoard';
 import { Player } from './Entities';
 
+window.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+  }
+}, false);
+
 const config = {
   type: Phaser.WEBGL,
   parent: "phaser-example",

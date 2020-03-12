@@ -28,13 +28,27 @@ class LeaderBoard extends Phaser.Scene {
           }
         });
 
-        this.title = this.add.text((this.game.config.width * 0.2), 80, 'Leader Board', {
+        this.title = this.add.text((this.game.config.width * 0.2), 80, 'Top scores', {
           fontFamily: 'monospace',
           fontSize: 40,
           fontStyle: 'bold',
           color: '#ffffff',
           align: 'left'
         });
+
+        this.back = this.add.text(20, this.game.config.height - 40, '<<', {
+          fontFamily: 'monospace',
+          fontSize: 30,
+          fontStyle: 'bold',
+          color: '#ffffff',
+          align: 'left'
+        });
+
+        this.back.setInteractive();
+
+        this.back.on("pointerup", function () {
+          this.scene.start("SceneMainMenu");
+        }, this);
 
         let userScoreArr = [];
         for (let user in this.data) {
@@ -45,7 +59,10 @@ class LeaderBoard extends Phaser.Scene {
 
         userScoreArr = userScoreArr.sort((a, b) => a[1] < b[1]);
 
-        userScoreArr.forEach((userScore, i) => {
+        userScoreArr.some((userScore, i) => {
+          if (i > 14) {
+            return;
+          }
           this.add.text((this.game.config.width * 0.2), 170 + (25 * i), `${userScore[0]}`, {
             fontFamily: 'monospace',
             fontSize: 20,

@@ -83,7 +83,7 @@ class SceneMainMenu extends Phaser.Scene {
 
       if (event.target.name === 'playButton') {
         var inputText = this.getChildByName('nameField');
-
+        
         //  Have they entered anything?
         if (inputText.value !== '') {
           //  Turn off the click events
