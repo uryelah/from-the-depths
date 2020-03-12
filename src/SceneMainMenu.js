@@ -1,8 +1,10 @@
 import { ScrollingBackground } from './Entities';
+import game from './index';
 
 class SceneMainMenu extends Phaser.Scene {
   constructor() {
     super({ key: "SceneMainMenu" });
+    this.id = "KkMLF8BEl0nPVi9au6fA";
   }
 
   preload() {
@@ -16,6 +18,7 @@ class SceneMainMenu extends Phaser.Scene {
     this.load.image("sprBtnRestartDown", "./assets/sprBtnRestartDown.png");
     this.load.audio("sndBtnOver", "./assets/sndBtnOver.wav");
     this.load.audio("sndBtnDown", "./assets/sndBtnDown.wav");
+    this.load.html('nameform', './assets/dom/nameform.html');
   }
 
   create() {
@@ -26,40 +29,90 @@ class SceneMainMenu extends Phaser.Scene {
 
     this.btnPlay = this.add.sprite(
       this.game.config.width * 0.5,
-      this.game.config.height * 0.5,
+      this.game.config.height - 20,
       "sprBtnPlay"
     );
 
     this.btnPlay.setInteractive();
 
-    this.btnPlay.on("pointerover", function() {
+    this.btnPlay.on("pointerover", function () {
       this.btnPlay.setTexture("sprBtnPlayHover"); // set the button texture to sprBtnPlayHover
       this.sfx.btnOver.play(); // play the button over sound
     }, this);
 
-    this.btnPlay.on("pointerout", function() {
+    this.btnPlay.on("pointerout", function () {
       this.setTexture("sprBtnPlay");
     });
 
-    this.btnPlay.on("pointerdown", function() {
+    this.btnPlay.on("pointerdown", function () {
       this.btnPlay.setTexture("sprBtnPlayDown");
       this.sfx.btnDown.play();
     }, this);
 
-    this.btnPlay.on("pointerup", function() {
+    this.btnPlay.on("pointerup", function () {
       this.btnPlay.setTexture("sprBtnPlay");
-      this.scene.start("SceneMain");
+      this.scene.start("LeaderBoard", { id: this.id });
     }, this);
 
-    this.title = this.add.text(this.game.config.width * 0.5, 128, "SPACE SHOOTER", {
+/*
+    this.btnPlay = this.add.sprite(
+      this.game.config.width * 0.5,
+      this.game.config.height * 0.5,
+      "sprBtnPlay"
+    );
+*/
+    //this.btnPlay.setInteractive();
+
+    this.title = this.add.text(this.game.config.width * 0.5, 128, "From the depths...", {
       fontFamily: 'monospace',
-      fontSize: 48,
+      fontSize: 40,
       fontStyle: 'bold',
       color: '#ffffff',
       align: 'center'
     });
     this.title.setOrigin(0.5);
 
+    var text = this.add.text((game.config.width/2) - 130, (game.config.height/2) - 60, 'Please enter your name', { color: 'white', fontSize: '20px ' });
+
+    var element = this.add.dom(game.config.width/2, game.config.height).createFromCache('nameform');
+    console.log(element)
+
+    element.addListener('click');
+
+    element.on('click', function (event) {
+
+      if (event.target.name === 'playButton') {
+        var inputText = this.getChildByName('nameField');
+
+        //  Have they entered anything?
+        if (inputText.value !== '') {
+          //  Turn off the click events
+          this.removeListener('click');
+
+          //  Hide the login element
+          this.setVisible(false);
+
+          //  Populate the text with whatever they typed in
+          game.scene.start("TentacleTest", { name: inputText.value });
+        } else {
+          //  Flash the prompt
+          this.scene.tweens.add({
+            targets: text,
+            alpha: 0.2,
+            duration: 250,
+            ease: 'Power3',
+            yoyo: true
+          });
+        }
+      }
+
+    });
+    this.tweens.add({
+      targets: element,
+      y: 300,
+      duration: 3000,
+      ease: 'Power3'
+    });
     this.backgrounds = [];
     for (var i = 0; i < 5; i++) {
       var keys = ["sprBg0", "sprBg1"];

@@ -5,6 +5,7 @@ import SceneGameOver from './SceneGameOver';
 import SceneMainMenu from './SceneMainMenu';
 import ScenePreMenu from './ScenePreMenu';
 import TentacleTest from './TentacleTest';
+import LeaderBoard from './LeaderBoard';
 import { Player } from './Entities';
 
 const config = {
@@ -13,6 +14,10 @@ const config = {
   width: 480,
   height: 640,
   backgroundColor: "#000000",
+  parent: "divId",
+  dom: {
+      createContainer: true
+  },
   physics: {
     default: "arcade",
     arcade: {
@@ -22,10 +27,11 @@ const config = {
     }
   },
   scene: [
-    //SceneMainMenu,
+    SceneMainMenu,
     //SceneMain,
     TentacleTest,
-    SceneGameOver
+    SceneGameOver,
+    LeaderBoard
   ],
   pixelArt: true,
   roundPixels: true

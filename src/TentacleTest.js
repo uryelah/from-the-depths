@@ -36,7 +36,6 @@ class PlayerSplat {
 class TentacleTest extends Phaser.Scene {
   constructor() {
     super({ key: "TentacleTest" });
-    //this.line = new Phaser.Geom.Line(this.start[0]/2, this.start[1]/2, this.start[0]/2 + 100, this.start[1]/2 - 100);
     this.count = 0;
     this.tween;
     this.player = { hp: 200, body: null };
@@ -49,6 +48,8 @@ class TentacleTest extends Phaser.Scene {
     this.spears = [];
     this.still = false;
     this.fishes = [];
+    this.over = false;
+    this.id = 'KkMLF8BEl0nPVi9au6fA';
   }
 
   preload() {
@@ -65,7 +66,13 @@ class TentacleTest extends Phaser.Scene {
     this.load.audio("breakSub", "./assets/breakSub.mp3");
     this.load.audio("subHug", "./assets/dontHugTheSubmarine.mp3");
   }
+
+  init(data){
+    this.name = data.name;
+  }
+
   create() {
+    // create API game to store scores at
     this.sfx = {
       bgm: this.sound.add("bgm"),
       bubble: this.sound.add("bubble"),
@@ -284,7 +291,7 @@ class TentacleTest extends Phaser.Scene {
               } else {
                 container.rotation += 0.25 / (i * 10);
               }
-            } else if (i > 5 && i < 8){
+            } else if (i > 5 && i < 8) {
               if (frame % 22 < 11) {
                 container.rotation += 0.25 / (i * 10);
               } else {
@@ -352,10 +359,35 @@ class TentacleTest extends Phaser.Scene {
         });
       }
 
-      if (this.player.hp < 1) {
-        this.scene.pause("TentacleTest");
-        this.scene.remove("TentacleTest");
-        this.scene.start("SceneGameOver");
+      if (this.player.hp < 1 && !this.over) {
+        this.over = true;
+        game.scene.pause("TentacleTest");
+        game.scene.start("SceneGameOver", { score: this.pontuation, name: this.name});
+
+        // save player score
+
+        fetch(`https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${this.id}/scores`, {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user: this.name,
+            score: this.pontuation
+          })
+        })
+          .then(data => data.json()).then(res => res.result)
+          .catch(function (error) {
+            console.log('Request failure: ', error);
+          });
+
+        setTimeout(() => {
+          this.gameId = this.gameId.replace('Game with ID: ', '');
+          this.gameId = this.gameId.replace(' added.', '');
+          this.gameId = this.gameId.replace(' ', '');
+          console.log(this.gameId);
+        }, 2000);
+
         //this.player.destroy();
       }
 
@@ -425,13 +457,13 @@ class TentacleTest extends Phaser.Scene {
           this.physics.world.enable(ray);
           ray.body.setSize(game.config.height * 0.6, ray.displayWidth);
           diver.ray = ray;
-        } else if (diver.type === 'submarine' && diver.ray && Math.abs(diver.x - game.config.width/2) < 30) {
+        } else if (diver.type === 'submarine' && diver.ray && Math.abs(diver.x - game.config.width / 2) < 30) {
           rayOn = true;
           diver.ray.setVisible(true);
           this.sfx.rayStart.play();
           diver.ray.x = diver.x;
           diver.ray.y = diver.y;
-          diver.ray.displayHeight = game.config.height - diver.displayHeight - (diver.y/2);
+          diver.ray.displayHeight = game.config.height - diver.displayHeight - (diver.y / 2);
           diver.ray.body.setSize(game.config.height * 0.6, diver.ray.displayHeight);
 
           let curColide = this.mainContainer;
@@ -450,7 +482,7 @@ class TentacleTest extends Phaser.Scene {
             curColide = curColide.list[1];
           }
 
-        } else if (diver.type === 'submarine' && diver.ray && !Math.abs(diver.x - game.config.width/2) < 30) {
+        } else if (diver.type === 'submarine' && diver.ray && !Math.abs(diver.x - game.config.width / 2) < 30) {
           diver.ray.setVisible(false);
           rayOn = false;
           this.sfx.ray.stop();
@@ -463,7 +495,7 @@ class TentacleTest extends Phaser.Scene {
         spear.y += spear.velocity.y;
         spear.x += spear.velocity.x;
 
-        if (spear.x < 0 || spear.x > game.config.width || 
+        if (spear.x < 0 || spear.x > game.config.width ||
           spear.y < 0 || spear.y > game.config.height) {
           spear.destroy();
           this.spears[i] = null;
@@ -484,6 +516,12 @@ class TentacleTest extends Phaser.Scene {
   }
 
   update() {
+    if (this.player.hp < 1) {
+      game.scene.pause("TentacleTest");
+      game.scene.start("SceneMainMenu");
+      console.log(game.scene)
+      //this.player.destroy();
+    }
     // delete splats out of screen
     updateFrames += 1;
     this.playerSplats.children.entries.forEach((splat, i) => {
@@ -502,7 +540,7 @@ class TentacleTest extends Phaser.Scene {
         } else {
           fish.y += 0.2;
         }
-      
+
         if (fish.x > game.config.width) {
           fish.x = -(Math.random() * 10);
           fish.y = (Math.random() * (game.config.width - 200)) + 200;
@@ -542,14 +580,14 @@ class TentacleTest extends Phaser.Scene {
           this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
           this.player.hp -= 1;
         }
-  
-  
+
+
         if (diver.type === 'submarine') {
-            diver.x += 0.5 * diver.direction;
-    
-            if (diver.x < 0 || diver.x > game.config.width) {
-              diver.direction = -diver.direction;
-            }
+          diver.x += 0.5 * diver.direction;
+
+          if (diver.x < 0 || diver.x > game.config.width) {
+            diver.direction = -diver.direction;
+          }
         } else if (diver.smart && Math.abs(diver.x - this.mainContainer.x) < 50
           && Math.abs(diver.y - this.mainContainer.y) < 50) {
           if (diver.y < this.mainContainer.y) {
@@ -575,7 +613,7 @@ class TentacleTest extends Phaser.Scene {
             diver.x += 5;
           }
         }
-  
+
         if (diver.type !== 'submarine') {
           if (diver.x <= 0) {
             diver.x += 25
