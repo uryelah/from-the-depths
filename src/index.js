@@ -24,8 +24,8 @@ const config = {
   scene: [
     //SceneMainMenu,
     //SceneMain,
-    //SceneGameOver
-    TentacleTest
+    TentacleTest,
+    SceneGameOver
   ],
   pixelArt: true,
   roundPixels: true
