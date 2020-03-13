@@ -9,7 +9,8 @@
     "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url": "git+https://github.com/uryelah/from-the-depths.git"
   },
   "author": "Sarah Chamorro <sarahchamorro@gmail.com>",
   "license": "MIT",
