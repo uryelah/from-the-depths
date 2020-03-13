@@ -29,7 +29,7 @@ class TentacleTest extends Phaser.Scene {
     super({ key: 'TentacleTest' });
     this.count = 0;
     this.tween;
-    this.player = { hp: 200, body: null };
+    this.player = { hp: 2, body: null };
     this.mainContainer;
     this.containers = [];
     this.pontuation = 0;

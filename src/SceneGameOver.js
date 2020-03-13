@@ -42,9 +42,10 @@ class SceneGameOver extends Phaser.Scene {
 
     this.restart.setInteractive();
 
-    this.restart.on('pointerdown', (e) => {
-      game.scene.stop('SceneGameOver');
-      game.scene.start('SceneMainMenu');
+    this.restart.on('pointerdown', () => {
+      //game.scene.stop('SceneGameOver'); 
+      window.location.reload();
+      //game.scene.start('SceneMainMenu');
     });
 
     this.playerScore = this.add.text(this.game.config.width * 0.5, 208, `${this.name}'s score: ${this.score}`, {
