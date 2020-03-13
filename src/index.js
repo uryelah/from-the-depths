@@ -1,14 +1,15 @@
 import Phaser from 'phaser';
-import SceneGameOver from './SceneGameOver';
-import SceneMainMenu from './SceneMainMenu';
-import TentacleTest from './TentacleTest';
-import LeaderBoard from './LeaderBoard';
 
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-  }
-}, false);
+import SceneGameOver from './SceneGameOver';
+
+import SceneMainMenu from './SceneMainMenu';
+
+import TentacleTest from './TentacleTest';
+
+import LeaderBoard from './LeaderBoard';
+import cleanKeyPress from './helpers/dom';
+
+cleanKeyPress();
 
 const config = {
   type: Phaser.WEBGL,

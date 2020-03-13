@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
-import game from './index';
+
+import Text from './helpers/text';
+
+const { addTitleText, addSubtitle, addNoticeText } = Text;
 
 class SceneGameOver extends Phaser.Scene {
   constructor() {
@@ -18,63 +21,45 @@ class SceneGameOver extends Phaser.Scene {
       'sprBtnRestart',
     );
     const graphics = this.add.graphics({ fillStyle: { color: 0x000000 } });
-    const rect = new Phaser.Geom.Rectangle(0, 0, game.config.width, game.config.height);
+    const rect = new Phaser.Geom.Rectangle(0, 0, this.game.config.width, this.game.config.height);
     graphics.fillRectShape(rect);
 
-    this.title = this.add.text(this.game.config.width * 0.5, 128, 'GAME OVER', {
-      fontFamily: 'monospace',
-      fontSize: 48,
-      fontStyle: 'bold',
-      color: '#ffffff',
-      align: 'center',
-    });
+    this.title = addTitleText(this, 'GAME OVER', this.game.config.width * 0.5, 128, 'center', 48);
+
     this.title.setOrigin(0.5);
 
-    this.restart = this.add.text(this.game.config.width * 0.5, game.config.height - 60, 'Restart', {
-      fontFamily: 'monospace',
-      fontSize: 24,
-      fontStyle: 'bold',
-      color: 'white',
-      align: 'center',
-    });
+    this.restart = addSubtitle(this, 'center', '#ffffff', 'Restart');
 
     this.restart.setOrigin(0.5, 0.5);
 
     this.restart.setInteractive();
 
     this.restart.on('pointerdown', () => {
-      //game.scene.stop('SceneGameOver'); 
+      this.game.scene.stop('SceneGameOver');
       window.location.reload();
-      //window.open('https://leetcode.com/problems/sort-colors/')
-      //game.scene.start('SceneMainMenu');
     });
 
-    this.playerScore = this.add.text(this.game.config.width * 0.5, 208, `${this.name}'s score: ${this.score}`, {
-      fontFamily: 'monospace',
-      fontSize: 30,
-      fontStyle: 'normal',
-      color: 'red',
-      align: 'center',
-    });
+    this.playerScore = addNoticeText(this, `${this.name}'s score: ${this.score}`, this.game.config.width * 0.5, 208, 'center', 'red');
+
     this.playerScore.setOrigin(0.5);
 
     this.btnRestart.setInteractive();
 
-    this.btnRestart.on('pointerover', function () {
-      this.btnRestart.setTexture('sprBtnRestartHover'); // set the button texture to sprBtnPlayHover
-      this.sfx.btnOver.play(); // play the button over sound
+    this.btnRestart.on('pointerover', () => {
+      this.btnRestart.setTexture('sprBtnRestartHover');
+      this.sfx.btnOver.play();
     }, this);
 
-    this.btnRestart.on('pointerout', function () {
+    this.btnRestart.on('pointerout', () => {
       this.setTexture('sprBtnRestart');
     });
 
-    this.btnRestart.on('pointerdown', function () {
+    this.btnRestart.on('pointerdown', () => {
       this.btnRestart.setTexture('sprBtnRestartDown');
       this.sfx.btnDown.play();
     }, this);
 
-    this.btnRestart.on('pointerup', function () {
+    this.btnRestart.on('pointerup', () => {
       this.btnRestart.setTexture('sprBtnRestart');
       this.scene.start('SceneMain');
     }, this);

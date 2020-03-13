@@ -1,5 +1,9 @@
 import Phaser from 'phaser';
 
+import Text from './helpers/text';
+
+const { addListText, addTitleText, addNoticeText } = Text;
+
 class LeaderBoard extends Phaser.Scene {
   constructor() {
     super({ key: 'LeaderBoard' });
@@ -11,7 +15,8 @@ class LeaderBoard extends Phaser.Scene {
   }
 
   create() {
-    console.log(this.id);
+    this.title = addTitleText(this, 'Top scores', this.game.config.width * 0.2, 80, 'left');
+
     fetch(`https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${this.id}/scores`, {
       method: 'GET',
       headers: {
@@ -27,25 +32,11 @@ class LeaderBoard extends Phaser.Scene {
           }
         });
 
-        this.title = this.add.text((this.game.config.width * 0.2), 80, 'Top scores', {
-          fontFamily: 'monospace',
-          fontSize: 40,
-          fontStyle: 'bold',
-          color: '#ffffff',
-          align: 'left',
-        });
-
-        this.back = this.add.text(20, this.game.config.height - 40, '<<', {
-          fontFamily: 'monospace',
-          fontSize: 30,
-          fontStyle: 'bold',
-          color: '#ffffff',
-          align: 'left',
-        });
+        this.back = addNoticeText(this, '<<', 20, this.game.config.height - 40, 'left', '#ffffff');
 
         this.back.setInteractive();
 
-        this.back.on('pointerup', function () {
+        this.back.on('pointerup', () => {
           this.scene.start('SceneMainMenu');
         }, this);
 
@@ -62,33 +53,15 @@ class LeaderBoard extends Phaser.Scene {
           if (i > 14) {
             return;
           }
-          this.add.text((this.game.config.width * 0.2), 170 + (25 * i), `${userScore[0]}`, {
-            fontFamily: 'monospace',
-            fontSize: 20,
-            fontStyle: 'bold',
-            color: 'green',
-            align: 'left',
-          });
 
-          this.add.text((this.game.config.width * 0.5), 175 + (25 * i), '---', {
-            fontFamily: 'monospace',
-            fontSize: 20,
-            fontStyle: 'normal',
-            color: '#ffffff',
-            align: 'center',
-          });
-
-          this.add.text((this.game.config.width * 0.75), 170 + (25 * i), `${userScore[1]}`, {
-            fontFamily: 'monospace',
-            fontSize: 20,
-            fontStyle: 'normal',
-            color: 'green',
-            align: 'right',
-          });
+          addListText(this, 'left', 'green', `${userScore[0]}`, i, 0.2);
+          addListText(this, 'left', '#ffffff', '---', i, 0.5, 'normal');
+          addListText(this, 'left', 'green', `${userScore[1]}`, i, 0.75, 'normal');
         });
       })
       .catch((error) => {
-        console.log('Request failure: ', error);
+        console.log(error);
+        this.scene.start('SceneMainMenu');
       });
   }
 }

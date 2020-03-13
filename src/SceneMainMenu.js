@@ -1,5 +1,10 @@
 import Phaser from 'phaser';
-import game from './index';
+
+import Text from './helpers/text';
+
+import PreLoader from './helpers/Preloader';
+
+const { addSubtitle, addTitleText } = Text;
 
 class SceneMainMenu extends Phaser.Scene {
   constructor() {
@@ -9,17 +14,11 @@ class SceneMainMenu extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet('water', './assets/water.png', {
-      frameWidth: 192,
-      frameHeight: 108,
-    });
-    this.load.audio('bgm', './assets/bgm.mp3');
-    this.load.audio('bubble', './assets/bubbleAttack.mp3');
-    this.load.html('nameform', './assets/dom/nameform.html');
+    PreLoader.mainMenu(this);
   }
 
   create() {
-    this.bg = this.add.tileSprite(0, game.config.height - 270, 192, 108, 'water');
+    this.bg = this.add.tileSprite(0, this.game.config.height - 270, 192, 108, 'water');
     this.bg.setOrigin(0, 0);
     this.bg.setDisplaySize(480, 270);
 
@@ -30,13 +29,7 @@ class SceneMainMenu extends Phaser.Scene {
 
     this.sfx.bgm.play();
 
-    this.leaderBtn = this.add.text(this.game.config.width * 0.5, game.config.height - 60, 'Leaderboard', {
-      fontFamily: 'bookman',
-      fontSize: 24,
-      fontStyle: 'bold',
-      color: 'white',
-      align: 'center',
-    });
+    this.leaderBtn = addSubtitle(this, 'center', '#ffffff', 'Leaderboard');
 
     this.leaderBtn.setOrigin(0.5, 0.5);
 
@@ -53,18 +46,13 @@ class SceneMainMenu extends Phaser.Scene {
       this.scene.start('LeaderBoard', { id: this.id });
     }, this);
 
-    this.title = this.add.text(this.game.config.width * 0.5, 128, 'From the depths...', {
-      fontFamily: 'bookman',
-      fontSize: 40,
-      fontStyle: 'bold',
-      color: '#ffffff',
-      align: 'center',
-    });
+    this.title = addTitleText(this, 'From the depths...');
+
     this.title.setOrigin(0.5);
 
-    const text = this.add.text((game.config.width / 2) - 130, (game.config.height / 2) - 70, 'Please enter your name', { color: '#426e5d', fontSize: '20px ' });
+    const text = this.add.text((this.game.config.width / 2) - 130, (this.game.config.height / 2) - 70, 'Please enter your name', { color: '#426e5d', fontSize: '20px ' });
 
-    const element = this.add.dom(game.config.width / 2, game.config.height).createFromCache('nameform');
+    const element = this.add.dom(this.game.config.width / 2, this.game.config.height).createFromCache('nameform');
 
     element.addListener('click');
 
@@ -74,8 +62,8 @@ class SceneMainMenu extends Phaser.Scene {
         if (inputText.value !== '') {
           element.removeListener('click');
           element.setVisible(false);
-          game.scene.stop('SceneMainMenu');
-          game.scene.start('TentacleTest', { name: inputText.value });
+          this.game.scene.stop('SceneMainMenu');
+          this.game.scene.start('TentacleTest', { name: inputText.value });
         } else {
           this.scene.tweens.add({
             targets: text,
