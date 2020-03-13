@@ -294,7 +294,7 @@ class TentacleTest extends Phaser.Scene {
     // downer = this.add.sprite(this.mainContainer.x, 0, "logo");
     // downer.setScale(0.09)
     downer.fall = true;
-    downer.hp = 2;
+    downer.hp = 1;
     downer.smart = false;
 
     this.divers.push(downer);
@@ -402,8 +402,8 @@ class TentacleTest extends Phaser.Scene {
 
       if (this.divers.length > 0) {
         !this.over && this.playerSplats.children.entries.forEach((splat) => {
-          this.divers.slice().forEach((diver, i) => {
-            if (Math.abs(splat.x - diver.x) < 20
+          [...this.divers].forEach((diver, i) => {
+            if (diver && Math.abs(splat.x - diver.x) < 20
               && diver.y - splat.y > 2) {
               diver.hp -= 1;
               splat.destroy();
@@ -416,7 +416,7 @@ class TentacleTest extends Phaser.Scene {
                   this.sfx.breakSub.play();
                 }
                 diver.destroy();
-                this.divers.splice(i, 1);
+                this.divers.splice(i, 1, null);
                 this.pontuation += 1;
                 this.score.destroy();
                 this.sfx.shot.play();
@@ -453,16 +453,24 @@ class TentacleTest extends Phaser.Scene {
       }
 
       if (frame % 120 === 0) {
-        for (let i = 0; i < 2; i += 1) {
-          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, 'diver');
+        for (let i = 0; i < 1 + (this.level/2); i += 1) {
+          if (i > 10) {
+            break;
+          }
+
+          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), Phaser.Math.Between(-50, 0), 32, 32, 'diver');
           // downer.setScale(0.09);
           downer.fall = true;
-          downer.hp = 2;
+          downer.hp = this.level < 5 ? 1 : 2;
           downer.smart = false;
           this.divers.push(downer);
         }
 
-        for (let i = 0; i < 1; i += 1) {
+        for (let i = 0; i < (this.level/3); i += 1) {
+          if (i > 4) {
+            break;
+          }
+
           downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, 'diverSmart');
           // downer.setScale(0.09);
           downer.fall = true;
@@ -472,7 +480,7 @@ class TentacleTest extends Phaser.Scene {
           this.divers.push(downer);
         }
 
-        if (!this.submarine && Math.random() > 0.5) {
+        if (!this.submarine && Math.random() < 0.05 * this.level) {
           this.submarine = true;
           downer = this.add.sprite(game.config.width / 2, 0, 'submarine');
           downer.fall = true;
@@ -584,10 +592,10 @@ class TentacleTest extends Phaser.Scene {
   }
 
   update() {
-    const calculateLevel = (num) => Math.floor(num / 1000);
+    const calculateLevel = (num) => Math.floor(num / 500);
 
     this.level = calculateLevel(frame);
-    console.log(this.level);
+    console.log(this.level)
     if (!this.over) {
       if (updateFrames % 20 === 0) {
         if (this.ts.currentFrame + 1 < this.ts.frameLength) {
@@ -623,7 +631,7 @@ class TentacleTest extends Phaser.Scene {
             fish.y += 0.2;
           }
 
-          if (updateFrames % 48 < 16) {
+          if (fish && updateFrames % 48 < 16) {
             fish.setFrame(0);
           } else if (updateFrames % 48 < 32) {
             fish.setFrame(1);
@@ -657,15 +665,20 @@ class TentacleTest extends Phaser.Scene {
         if (diver !== null) {
           if (diver.type !== 'submarine') {
             if (updateFrames % 50 + i < i + 10) {
-              diver.setFrame(0);
+              if (diver)
+                diver.setFrame(0);
             } else if (updateFrames % 50 + i < i + 20) {
-              diver.setFrame(1);
+              if (diver)
+                diver.setFrame(1);
             } else if (updateFrames % 50 + i < i + 30) {
-              diver.setFrame(2);
+              if (diver)
+                diver.setFrame(2);
             } else if (updateFrames % 50 + i < i + 40) {
-              diver.setFrame(3);
+              if (diver)
+                diver.setFrame(3);
             } else if (updateFrames % 50 + i < i + 50) {
-              diver.setFrame(4);
+              if (diver)
+                diver.setFrame(4);
             }
           }
           if (diver !== carry || (diver.type === 'submarine' && rayOn)) {

@@ -70,8 +70,7 @@ class SceneMainMenu extends Phaser.Scene {
 
     element.on('click', (event) => {
       if (event.target.name === 'playButton') {
-        const inputText = document.getElementsByName('nameField');
-
+        const inputText = element.getChildByName('nameField');
         if (inputText.value !== '') {
           element.removeListener('click');
           element.setVisible(false);
