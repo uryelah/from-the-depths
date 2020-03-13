@@ -1,14 +1,6 @@
-import Phaser from "phaser";
-import { Player } from "./Entities";
-import Entity from './Entity';
+import Phaser from 'phaser';
 import game from './index';
-let line;
-let line2;
-let line3;
-let line4;
-let width;
-let graphics;
-let velocity = 0;
+
 let goalAngle = 0;
 let previousAngle = 0;
 let inverseAngle = 0;
@@ -16,7 +8,6 @@ let goalX;
 let goalY;
 let acel = 1;
 let mouseDown = false;
-let splat;
 let grab = 0;
 let havePower = true;
 let clickDirection;
@@ -35,7 +26,7 @@ class PlayerSplat {
 
 class TentacleTest extends Phaser.Scene {
   constructor() {
-    super({ key: "TentacleTest" });
+    super({ key: 'TentacleTest' });
     this.count = 0;
     this.tween;
     this.player = { hp: 200, body: null };
@@ -50,6 +41,7 @@ class TentacleTest extends Phaser.Scene {
     this.fishes = [];
     this.over = false;
     this.id = 'KkMLF8BEl0nPVi9au6fA';
+    this.level = 0;
   }
 
   preload() {
@@ -60,103 +52,119 @@ class TentacleTest extends Phaser.Scene {
     this.load.image('topGradient', './assets/bg-top-gradient.png');
     this.load.image('logo', './assets/nuSeg.png');
     this.load.image('vaquita', './assets/vaquita.png');
-    this.load.image("sprBtnPlay", "./assets/sprBtnPlay.png");
-    this.load.audio("bgm", "./assets/bgm.mp3");
-    this.load.audio("bubble", "./assets/bubbleAttack.mp3");
-    this.load.audio("eat", "./assets/eating.mp3");
-    this.load.audio("push", "./assets/pushDiver.mp3");
-    this.load.audio("ray", "./assets/rayZap.mp3");
-    this.load.audio("rip", "./assets/ripDiver.mp3");
-    this.load.audio("shot", "./assets/ripShot.mp3");
-    this.load.audio("submarine", "./assets/subArrive.mp3");
-    this.load.audio("rayStart", "./assets/subRayOn.mp3");
-    this.load.audio("breakSub", "./assets/breakSub.mp3");
-    this.load.audio("subHug", "./assets/dontHugTheSubmarine.mp3");
-    this.load.spritesheet("mushroom", "./assets/ocean.png", {
+    this.load.image('sprBtnPlay', './assets/sprBtnPlay.png');
+    this.load.audio('bgm', './assets/bgm.mp3');
+    this.load.audio('bubble', './assets/bubbleAttack.mp3');
+    this.load.audio('eat', './assets/eating.mp3');
+    this.load.audio('push', './assets/pushDiver.mp3');
+    this.load.audio('ray', './assets/rayZap.mp3');
+    this.load.audio('rip', './assets/ripDiver.mp3');
+    this.load.audio('shot', './assets/ripShot.mp3');
+    this.load.audio('submarine', './assets/subArrive.mp3');
+    this.load.audio('rayStart', './assets/subRayOn.mp3');
+    this.load.audio('breakSub', './assets/breakSub.mp3');
+    this.load.audio('subHug', './assets/dontHugTheSubmarine.mp3');
+    this.load.spritesheet('mushroom', './assets/ocean.png', {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
-    this.load.spritesheet("shot", "./assets/shot.png", {
+    this.load.spritesheet('shot', './assets/shot.png', {
       frameWidth: 16,
-      frameHeight: 16
+      frameHeight: 16,
     });
-    this.load.spritesheet("fish", "./assets/vaquita.png", {
+    this.load.spritesheet('fish', './assets/vaquita.png', {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
-    this.load.spritesheet("diver", "./assets/diver01.png", {
+    this.load.spritesheet('diver', './assets/diver01.png', {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
-    this.load.spritesheet("diverSmart", "./assets/diver02.png", {
+    this.load.spritesheet('diverSmart', './assets/diver02.png', {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
-    this.load.spritesheet("bubble", "./assets/bubble.png", {
+    this.load.spritesheet('bubble', './assets/bubble.png', {
       frameWidth: 32,
-      frameHeight: 32
+      frameHeight: 32,
     });
   }
 
-  init(data){
+  init(data) {
     this.name = data.name;
   }
 
   create() {
-    let bgContainer = this.add.container(game.config.width, game.config.height).setName('conty');
+    const bgContainer = this.add.container(game.config.width, game.config.height).setName('conty');
 
-    this.ts = this.add.tileSprite(-game.config.width/2, -game.config.height/2, game.config.width, game.config.height, 'mushroom').setName('tiley');
+    this.ts = this.add.tileSprite(-game.config.width / 2, -game.config.height / 2, game.config.width, game.config.height, 'mushroom').setName('tiley');
     this.ts.frameLength = 16;
     this.ts.currentFrame = 0;
     bgContainer.add(this.ts);
 
-    this.gradientBgBottom = this.make.image({ x: game.config.width / 2, y: game.config.height / 2, key: 'bottomGradient', add: true });
-    this.gradientBgTop = this.make.image({ x: game.config.width / 2, y: game.config.height / 2, key: 'topGradient', add: true });
+    this.gradientBgBottom = this.make.image({
+      x: game.config.width / 2, y: game.config.height / 2, key: 'bottomGradient', add: true,
+    });
+    this.gradientBgTop = this.make.image({
+      x: game.config.width / 2, y: game.config.height / 2, key: 'topGradient', add: true,
+    });
     this.gradientBgBottom.setDepth(100);
     this.gradientBgTop.setDepth(0);
 
-    this.head = this.make.image({ x: game.config.width / 2, y: game.config.height/1.5, key: 'head', add: true });
+    this.head = this.make.image({
+      x: game.config.width / 2, y: game.config.height / 1.5, key: 'head', add: true,
+    });
     // create API game to store scores at
     this.sfx = {
-      bgm: this.sound.add("bgm"),
-      bubble: this.sound.add("bubble"),
-      eat: this.sound.add("eat"),
-      push: this.sound.add("push"),
-      ray: this.sound.add("ray"),
-      rip: this.sound.add("rip"),
-      shot: this.sound.add("shot"),
-      submarine: this.sound.add("submarine"),
-      breakSub: this.sound.add("breakSub"),
-      rayStart: this.sound.add("rayStart"),
-      subHug: this.sound.add("subHug")
+      bgm: this.sound.add('bgm', { loop: true }),
+      bubble: this.sound.add('bubble'),
+      eat: this.sound.add('eat'),
+      push: this.sound.add('push'),
+      ray: this.sound.add('ray'),
+      rip: this.sound.add('rip'),
+      shot: this.sound.add('shot'),
+      submarine: this.sound.add('submarine'),
+      breakSub: this.sound.add('breakSub'),
+      rayStart: this.sound.add('rayStart'),
+      subHug: this.sound.add('subHug'),
     };
     this.sfx.bgm.play();
 
     this.score = this.add.text(10, 20, `Points: ${this.pontuation}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
-    this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
+    this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
     this.mainContainer = this.add.container(game.config.width / 2, game.config.height / 2);
     this.player.body = this.mainContainer;
     goalX = this.mainContainer.x;
     goalY = this.mainContainer.y;
-    const image = this.make.image({ x: this.mainContainer.width / 2, y: this.mainContainer.height / 2, key: 'logo', add: false });
-    const image2 = this.make.image({ x: 1, y: 1, key: 'logo', add: false });
-    const image3 = this.make.image({ x: 1, y: 1, key: 'logo', add: false });
-    const image4 = this.make.image({ x: 1, y: 1, key: 'logo', add: false });
+    const image = this.make.image({
+      x: this.mainContainer.width / 2, y: this.mainContainer.height / 2, key: 'logo', add: false,
+    });
+    const image2 = this.make.image({
+      x: 1, y: 1, key: 'logo', add: false,
+    });
+    const image3 = this.make.image({
+      x: 1, y: 1, key: 'logo', add: false,
+    });
+    const image4 = this.make.image({
+      x: 1, y: 1, key: 'logo', add: false,
+    });
     const container1 = this.add.container(0, image.height * 0.23);
     const container2 = this.add.container(0, image2.height * 0.32);
     const container3 = this.add.container(0, image4.height * 0.43);
     this.mainContainer.add(image);
-    image.setScale(0.05)
-    //this.mainContainer.add(container1);
+    image.setScale(0.05);
+    // this.mainContainer.add(container1);
     this.containers.push(this.mainContainer);
 
     let previousContainer = this.mainContainer;
     let previousImg = image;
     for (let i = 0; i < 18; i++) {
-      let newImg = this.make.image({ x: 0, y: 0, key: 'logo', add: false });
+      const newImg = this.make.image({
+        x: 0, y: 0, key: 'logo', add: false,
+      });
       newImg.setScale((0.02 * (i + 0.5)) + 0.05);
-      newImg.displayWidth = newImg.displayWidth - (i * 2)
-      let newContainer = this.add.container(0, previousImg.displayHeight);
+      newImg.displayWidth -= (i * 2);
+      const newContainer = this.add.container(0, previousImg.displayHeight);
       newContainer.add(newImg);
       previousContainer.add(newContainer);
       previousContainer = newContainer;
@@ -176,39 +184,37 @@ class TentacleTest extends Phaser.Scene {
     let fish;
     let gravitaFish;
     for (let i = 0; i < 5; i += 1) {
-      //fish = this.make.image({ x: Math.random() * game.config.width, y: (Math.random() * (game.config.height - 200)) + 200, key: 'vaquita', add: false });
-      //fish = this.add.sprite(Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 'vaquita')
       fish = this.add.tileSprite(Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 32, 32, 'fish');
 
       fish.setScale(1);
-      //fish.setCrop(0, 0, 32, 32);
-      fish.setVisible(true)
+      // fish.setCrop(0, 0, 32, 32);
+      fish.setVisible(true);
       fish.direction = 1;
       this.physics.world.enable(fish);
-      //fish.setOrigin(0.5, 0.5)
-      //fish.body.setSize(30, 23);
-      //fish.body.setOffset(0, 3);
+      // fish.setOrigin(0.5, 0.5)
+      // fish.body.setSize(30, 23);
+      // fish.body.setOffset(0, 3);
       this.fishes.push(fish);
     }
 
     let moving = false;
-    this.input.on('pointermove', e => {
+    this.input.on('pointermove', (e) => {
       this.still = false;
       moving = true;
 
-      if (e.position.x > game.config.width/2) {
+      if (e.position.x > game.config.width / 2) {
         this.head.x += 0.5;
       } else {
         this.head.x -= 0.5;
       }
 
-      if (e.position.y < game.config.width/2 && this.head.y > game.config.width/2) {
+      if (e.position.y < game.config.width / 2 && this.head.y > game.config.width / 2) {
         this.head.y -= 0.5;
-      } else if (e.position.y > game.config.width/1.2) {
+      } else if (e.position.y > game.config.width / 1.2) {
         this.head.y += 0.5;
-      } else if (this.head.y < game.config.height/1.5) {
+      } else if (this.head.y < game.config.height / 1.5) {
         this.head.y += 1;
-      } else if (this.head.y > game.config.height/1.5) {
+      } else if (this.head.y > game.config.height / 1.5) {
         this.head.y -= 1;
       }
 
@@ -219,12 +225,12 @@ class TentacleTest extends Phaser.Scene {
       }
       setTimeout(() => {
         moving = false;
-      }, 100)
+      }, 100);
       setTimeout(() => {
         previousAngle = goalAngle;
         goalAngle = 0;
         this.still = true;
-      }, 300)
+      }, 300);
 
       goalAngle = Math.cos(e.angle) / 8;
       inverseAngle = Math.cos(-e.angle);
@@ -238,49 +244,38 @@ class TentacleTest extends Phaser.Scene {
                 container.rotation += 0.1 - (i * 0.005);
               } else {
                 container.rotation -= 0.1 - (i * 0.005);
-              };
+              }
+            } else if (container.rotation < previousAngle) {
+              container.rotation += 0.1 - (i * 0.005);
             } else {
-              if (container.rotation < previousAngle) {
-                container.rotation += 0.1 - (i * 0.005);
-              } else {
-                container.rotation -= 0.1 - (i * 0.005);
-              };
+              container.rotation -= 0.1 - (i * 0.005);
             }
             if (i === 0) {
               if (container.rotation < goalAngle * i) {
                 container.rotation += 0.1 - (i * 0.005);
               } else {
                 container.rotation -= 0.1 - (i * 0.005);
-              };
+              }
+            } else if (container.rotation < goalAngle) {
+              container.rotation += 0.1 - (i * 0.005);
             } else {
-              if (container.rotation < goalAngle) {
-                container.rotation += 0.1 - (i * 0.005);
-              } else {
-                container.rotation -= 0.1 - (i * 0.005);
-              };
+              container.rotation -= 0.1 - (i * 0.005);
             }
+          } else if (i === 0) {
+            if (container.rotation < goalAngle * i) {
+              container.rotation += 0.1 - (i * 0.005);
+            } else {
+              container.rotation -= 0.1 - (i * 0.005);
+            }
+          } else if (container.rotation < goalAngle) {
+            container.rotation += 0.1 - (i * 0.005);
           } else {
-            if (i === 0) {
-              if (container.rotation < goalAngle * i) {
-                container.rotation += 0.1 - (i * 0.005);
-              } else {
-                container.rotation -= 0.1 - (i * 0.005);
-              };
-            } else {
-              if (container.rotation < goalAngle) {
-                container.rotation += 0.1 - (i * 0.005);
-              } else {
-                container.rotation -= 0.1 - (i * 0.005);
-              };
-            }
+            container.rotation -= 0.1 - (i * 0.005);
           }
-
+        } else if (container.rotation < -goalAngle) {
+          container.rotation -= 0.07;
         } else {
-          if (container.rotation < -goalAngle) {
-            container.rotation -= 0.07;
-          } else {
-            container.rotation += 0.07;
-          };
+          container.rotation += 0.07;
         }
       });
 
@@ -296,15 +291,15 @@ class TentacleTest extends Phaser.Scene {
 
     downer = this.add.tileSprite(this.mainContainer.x, 0, 32, 32, 'diver');
 
-    //downer = this.add.sprite(this.mainContainer.x, 0, "logo");
-    //downer.setScale(0.09)
+    // downer = this.add.sprite(this.mainContainer.x, 0, "logo");
+    // downer.setScale(0.09)
     downer.fall = true;
     downer.hp = 2;
     downer.smart = false;
 
     this.divers.push(downer);
 
-    this.input.on('pointerup', e => {
+    this.input.on('pointerup', (e) => {
       mouseDown = false;
       grab = 0;
       havePower = false;
@@ -314,8 +309,8 @@ class TentacleTest extends Phaser.Scene {
       }, 1500);
 
       if (!carry) {
-        console.log(grab)
-        let splatter = this.add.tileSprite(this.mainContainer.x, this.sys.game.config.height, 32, 32, "bubble");
+        console.log(grab);
+        const splatter = this.add.tileSprite(this.mainContainer.x, this.sys.game.config.height, 32, 32, 'bubble');
         splatter.setScale(Math.random() + 0.7);
         this.physics.world.enable(splatter);
         splatter.body.setGravityY(-200);
@@ -325,7 +320,7 @@ class TentacleTest extends Phaser.Scene {
       }
     }, this);
 
-    this.input.on('pointerdown', e => {
+    this.input.on('pointerdown', (e) => {
       mouseDown = true;
       if (game.config.width / 2 > e.downX) {
         clickDirection = -1;
@@ -340,15 +335,15 @@ class TentacleTest extends Phaser.Scene {
           this.head.y += 0.5;
         } else {
           this.head.y -= 0.5;
-        };
+        }
       }
 
       if (goalAngle === 0) {
         if (Math.abs(this.mainContainer.rotation) > 0.05) {
           if (this.mainContainer.rotation > 0) {
-            this.mainContainer.rotation -= 0.025
+            this.mainContainer.rotation -= 0.025;
           } else if (this.mainContainer.rotation < 0) {
-            this.mainContainer.rotation += 0.025
+            this.mainContainer.rotation += 0.025;
           }
         }
 
@@ -377,9 +372,9 @@ class TentacleTest extends Phaser.Scene {
           }
           if (Math.abs(container.rotation) > 0.01) {
             if (container.rotation > 0) {
-              container.rotation -= 0.01
+              container.rotation -= 0.01;
             } else if (container.rotation < 0) {
-              container.rotation += 0.01
+              container.rotation += 0.01;
             }
           }
         });
@@ -388,7 +383,7 @@ class TentacleTest extends Phaser.Scene {
           this.mainContainer.rotation += 0.1;
         } else {
           this.mainContainer.rotation -= 0.1;
-        };
+        }
 
         this.containers.forEach((container, i, arr) => {
           if (i < 18) {
@@ -396,22 +391,20 @@ class TentacleTest extends Phaser.Scene {
               container.rotation += 0.1 - (i * 0.005);
             } else {
               container.rotation -= 0.1 - (i * 0.005);
-            };
+            }
+          } else if (container.rotation < -goalAngle / (i)) {
+            container.rotation += 0.1 - (i * 0.001);
           } else {
-            if (container.rotation < -goalAngle / (i)) {
-              container.rotation += 0.1 - (i * 0.001);
-            } else {
-              container.rotation -= 0.1 - (i * 0.001);
-            };
+            container.rotation -= 0.1 - (i * 0.001);
           }
         });
       }
 
       if (this.divers.length > 0) {
-        this.playerSplats.children.entries.forEach((splat) => {
+        !this.over && this.playerSplats.children.entries.forEach((splat) => {
           this.divers.slice().forEach((diver, i) => {
-            if (Math.abs(splat.x - diver.x) < 20 &&
-              diver.y - splat.y > 2) {
+            if (Math.abs(splat.x - diver.x) < 20
+              && diver.y - splat.y > 2) {
               diver.hp -= 1;
               splat.destroy();
 
@@ -437,40 +430,32 @@ class TentacleTest extends Phaser.Scene {
 
       if (this.player.hp < 1 && !this.over) {
         this.over = true;
-        game.scene.pause("TentacleTest");
-        game.scene.start("SceneGameOver", { score: this.pontuation, name: this.name});
+        this.sfx.bgm.stop();
+        game.scene.stop('TentacleTest');
+        game.scene.start('SceneGameOver', { score: this.pontuation, name: this.name });
 
         // save player score
 
         fetch(`https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${this.id}/scores`, {
           method: 'POST',
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             user: this.name,
-            score: this.pontuation
-          })
+            score: this.pontuation,
+          }),
         })
-          .then(data => data.json()).then(res => res.result)
-          .catch(function (error) {
+          .then((data) => data.json()).then((res) => res.result)
+          .catch((error) => {
             console.log('Request failure: ', error);
           });
-
-        setTimeout(() => {
-          this.gameId = this.gameId.replace('Game with ID: ', '');
-          this.gameId = this.gameId.replace(' added.', '');
-          this.gameId = this.gameId.replace(' ', '');
-          console.log(this.gameId);
-        }, 2000);
-
-        //this.player.destroy();
       }
 
       if (frame % 120 === 0) {
         for (let i = 0; i < 2; i += 1) {
-          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, "diver");
-          //downer.setScale(0.09);
+          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, 'diver');
+          // downer.setScale(0.09);
           downer.fall = true;
           downer.hp = 2;
           downer.smart = false;
@@ -478,8 +463,8 @@ class TentacleTest extends Phaser.Scene {
         }
 
         for (let i = 0; i < 1; i += 1) {
-          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, "diverSmart");
-          //downer.setScale(0.09);
+          downer = this.add.tileSprite(Phaser.Math.Between(0, game.config.width), 0, 32, 32, 'diverSmart');
+          // downer.setScale(0.09);
           downer.fall = true;
           downer.hp = 3;
           downer.smart = true;
@@ -489,7 +474,7 @@ class TentacleTest extends Phaser.Scene {
 
         if (!this.submarine && Math.random() > 0.5) {
           this.submarine = true;
-          downer = this.add.sprite(game.config.width / 2, 0, "submarine");
+          downer = this.add.sprite(game.config.width / 2, 0, 'submarine');
           downer.fall = true;
           downer.setDepth(50);
           downer.velocity = 0.2;
@@ -505,12 +490,12 @@ class TentacleTest extends Phaser.Scene {
         }
       }
 
-      this.divers.forEach((diver, i) => {
+      !this.over && this.divers.forEach((diver, i) => {
         if (diver.smart) {
           if (diver.shootClock === 0) {
             diver.shootClock = 20;
-            let spear = this.add.tileSprite(diver.x, diver.y, 16, 16, "shot");
-            //spear.setScale(0.01);
+            const spear = this.add.tileSprite(diver.x, diver.y, 16, 16, 'shot');
+            // spear.setScale(0.01);
             spear.velocity = { goal: [this.mainContainer.x, this.mainContainer.y], x: (this.mainContainer.x - diver.x) / 15, y: (this.mainContainer.y - diver.y) / 15 };
 
             this.spears.push(spear);
@@ -522,15 +507,15 @@ class TentacleTest extends Phaser.Scene {
               this.spears.splice(this.spears.indexOf(spear), 1);
               this.player.hp -= 0.5;
               this.hp.destroy();
-              this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
+              this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
             }, null, this);
           }
           diver.shootClock -= 1;
         } else if (diver.type === 'submarine' && !diver.ray && diver.timeToRay <= 0) {
-          let ray = this.add.sprite(diver.x, 0, "ray");
+          const ray = this.add.sprite(diver.x, 0, 'ray');
           ray.setDepth(10);
           ray.setOrigin(0.5, 0);
-          //ray.displayWidth = ray.displayWidth * 0.3;
+          // ray.displayWidth = ray.displayWidth * 0.3;
           ray.setVisible(false);
           this.physics.world.enable(ray);
           ray.body.setSize(ray.displayWidth, ray.displayWidth);
@@ -544,30 +529,29 @@ class TentacleTest extends Phaser.Scene {
           diver.ray.x = diver.x - (7 * -diver.direction);
           diver.ray.y = diver.y;
           diver.ray.displayHeight = game.config.height - diver.displayHeight - (diver.y / 2);
-          //diver.ray.body.setSize(game.config.height * 0.6, diver.ray.displayHeight);
+          // diver.ray.body.setSize(game.config.height * 0.6, diver.ray.displayHeight);
           diver.ray.body.setSize(100, diver.ray.displayHeight);
           diver.ray.body.setOffset(0, 0);
 
           let curColide = this.mainContainer;
           let colideCount = 0;
 
-          while (curColide.list.length > 1 || colideCount < 10) {
+          while (curColide.list.length > 1 && colideCount < 10) {
             colideCount += 1;
             this.physics.add.collider(diver.ray, curColide, () => {
               if (rayOn) {
                 this.player.hp -= 0.025;
                 this.hp.destroy();
-                this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
+                this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yello');
                 this.sfx.ray.play();
               }
             }, null, this);
             curColide = curColide.list[1];
           }
-
         } else if (diver.type === 'submarine' && diver.ray && !Math.abs(diver.x - game.config.width / 2) < 30) {
           diver.ray.setVisible(false);
           rayOn = false;
-          if (this.head.y > game.config.height/1.5) {
+          if (this.head.y > game.config.height / 1.5) {
             this.head.y -= 2;
           }
           this.sfx.ray.stop();
@@ -580,268 +564,268 @@ class TentacleTest extends Phaser.Scene {
         spear.y += spear.velocity.y;
         spear.x += spear.velocity.x;
 
-        if (spear.x < 0 || spear.x > game.config.width ||
-          spear.y < 0 || spear.y > game.config.height) {
+        if (spear.x < 0 || spear.x > game.config.width
+          || spear.y < 0 || spear.y > game.config.height) {
           spear.destroy();
           this.spears[i] = null;
         }
       });
 
-      this.spears = this.spears.filter(s => s !== null);
+      this.spears = this.spears.filter((s) => s !== null);
 
       if (this.still && this.player.hp + 0.05 <= 200) {
         this.player.hp += 0.05;
         this.hp.destroy();
-        this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
+        this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
       }
 
       frame += 1;
-    }, 1000 / 10)
-
+    }, 1000 / 10);
   }
 
   update() {
-    if (updateFrames % 20 === 0) {
-      if (this.ts.currentFrame + 1 < this.ts.frameLength) {
-        this.ts.setFrame(this.ts.currentFrame + 1);
-        this.ts.currentFrame += 1;
-      } else {
-        this.ts.setFrame(0);
-        this.ts.currentFrame = 0;
-      }
-    }
-    if (this.player.hp < 1) {
-      game.scene.pause("TentacleTest");
-      game.scene.start("SceneMainMenu");
-      console.log(game.scene)
-      //this.player.destroy();
-    }
-    // delete splats out of screen
-    updateFrames += 1;
-    this.playerSplats.children.entries.forEach((splat, i) => {
-      splat.rotation += 0.05;
-      if (splat.y < 0) {
-        splat.destroy();
-      }
-    });
+    const calculateLevel = (num) => Math.floor(num / 1000);
 
-    // move fish
-    [...this.fishes].forEach((fish, i) => {
-      if (fish !== null) {
-        fish.x += 0.5 * fish.direction;
-
-        if (updateFrames % 48 * (i + 1) < 24 * (i + 1)) {
-          fish.y -= 0.2;
+    this.level = calculateLevel(frame);
+    console.log(this.level);
+    if (!this.over) {
+      if (updateFrames % 20 === 0) {
+        if (this.ts.currentFrame + 1 < this.ts.frameLength) {
+          this.ts.setFrame(this.ts.currentFrame + 1);
+          this.ts.currentFrame += 1;
         } else {
-          fish.y += 0.2;
-        }
-
-        if (updateFrames % 48 < 16) {
-          fish.setFrame(0);
-        } else if (updateFrames % 48 < 32) {
-          fish.setFrame(1);
-        } else {
-          fish.setFrame(2);
-        }
-
-        if (fish.x > game.config.width) {
-          fish.x = -(Math.random() * 10);
-          fish.y = (Math.random() * (game.config.width - 200)) + 200;
+          this.ts.setFrame(0);
+          this.ts.currentFrame = 0;
         }
       }
-    });
-    this.fishes = this.fishes.filter(n => n !== null);
-    if (this.fishes.length < 5) {
-      //let fish = this.add.sprite(Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 'vaquita')
-      let fish = this.add.tileSprite(Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 32, 32, 'fish');
-
-      fish.setScale(1);
-      //fish.setCrop(0, 0, 32, 32);
-      fish.setVisible(true)
-      fish.direction = 1;
-      this.physics.world.enable(fish);
-      //fish.setOrigin(0.5, 0.5)
-      //fish.body.setSize(30, 23);
-      //fish.body.setOffset(0, 3);
-      this.fishes.push(fish);
-    }
-
-    [...this.divers].forEach((diver, i) => {
-      if (diver !== null) {
-        if (diver.type !== 'submarine') {
-          if (updateFrames % 50 + i < i + 10) {
-            diver.setFrame(0)
-          } else if (updateFrames % 50 + i < i + 20) {
-            diver.setFrame(1)
-          } else if (updateFrames % 50 + i < i + 30) {
-            diver.setFrame(2)
-          } else if (updateFrames % 50 + i < i + 40) {
-            diver.setFrame(3)
-          } else if (updateFrames % 50 + i < i + 50) {
-            diver.setFrame(4)
-          }
-        }
-        if (diver !== carry || (diver.type === 'submarine' && rayOn)) {
-          diver.y += 1 * (diver.velocity ? diver.velocity : 1);
-        } if (diver.y - diver.displayHeight > this.sys.game.config.height) {
-          //diver.setVisible(false)
-          //.setVisible(false)
-          if (diver.type === 'submarine') {
-            diver.ray.destroy();
-            this.submarine = false;
-            this.player.hp -= 10;
-            this.sfx.submarine.setLoop(false);
-            this.sfx.submarine.stop();
-            this.hp.destroy();
-            this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
-          }
-          diver.destroy();
-          this.divers.splice(i, 1, null);
-          this.hp.destroy();
-          this.sfx.rip.play();
-          this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
-          this.player.hp -= 1;
-        }
-
-
-        if (diver.type === 'submarine') {
-          diver.x += 0.5 * diver.direction;
-
-          if (diver.x < 0 || diver.x > game.config.width) {
-            diver.direction = -diver.direction;
-            diver.setScale(-diver.direction, 1);
-          }
-        } else if (diver.smart && Math.abs(diver.x - this.mainContainer.x) < 50
-          && Math.abs(diver.y - this.mainContainer.y) < 50) {
-          if (diver.y < this.mainContainer.y) {
-            diver.y -= 5;
-            diver.x -= 5;
-          } else {
-            diver.y += 5;
-            diver.x += 5;
-          }
-          diver.shootClock = 0;
-          this.sfx.push.play();
-          diver.hp -= 0.05;
-          this.player.hp -= 0.05;
-          if (diver.hp < 0) {
-            diver.destroy();
-            this.divers.splice(i, 1, null);
-            this.sfx.rip.play();
-          }
-        } else {
-          if (Math.random() < 0.5) {
-            diver.x -= 5;
-          } else {
-            diver.x += 5;
-          }
-        }
-
-        if (diver.type !== 'submarine' && diver !== null) {
-          if (diver.x <= 0) {
-            diver.x += 25
-          } else if (diver.x >= game.config.width) {
-            diver.x -= 25
-          }
-        }
+      if (this.player.hp < 1) {
+        // game.scene.start("SceneGameOver");
+        console.log(game.scene);
+      // this.player.destroy();
       }
-    }, this);
-
-    this.divers = this.divers.filter(n => n !== null)
-
-
-    if (mouseDown && this.divers.length > 0 && this.containers[2].rotation >= 0.1) {
-      let fallX = this.containers[2].localTransform.matrix[4];
-      let fallY = this.containers[2].localTransform.matrix[5];
-      this.divers.forEach((diver, i) => {
-        if (diver.type !== 'submarine' && fallY - diver.y < 50 &&
-          Math.abs(fallX - diver.x) < 50) {
-          diver.fall = false;
-          carry = diver;
-          carry.id = i;
+      // delete splats out of screen
+      updateFrames += 1;
+      !this.over && this.playerSplats.children.entries.forEach((splat, i) => {
+        splat.rotation += 0.05;
+        if (splat.y < 0) {
+          splat.destroy();
         }
       });
-    }
 
-    if (carry) {
-      carry.y = this.containers[2].localTransform.matrix[5] - 25;
-      carry.x = this.containers[2].localTransform.matrix[4];
-    }
+      // move fish
+      [...this.fishes].forEach((fish, i) => {
+        if (fish !== null) {
+          fish.x += 0.5 * fish.direction;
 
-    if (havePower && mouseDown && grab < 0.04) {
-      grab += 0.001;
-      if (true) {
-        this.containers.forEach((container, i, arr) => {
-          if (i === 2 && Math.abs(container.rotation) > 1.1) {
-            if (carry) {
-              carry.destroy();
-              this.divers.splice(carry.id, 1)
-              console.log('killed');
-              this.pontuation += 1;
-              this.score.destroy();
-              this.score = this.add.text(10, 20, `Points: ${this.pontuation}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
-              carry = false;
-              shot = false;
-            } else {
-              this.divers.slice().forEach((diver, i) => {
-                if (diver !== null) {
-                  if (Math.abs(arr[0].y - diver.y) < 40 && Math.abs(arr[0].x - diver.x) < 50) {
-                    if (diver.type === 'submarine') {
-                      this.player.hp -= 5;
-                      this.hp.destroy();
-                      this.sfx.subHug.play();
-                      setTimeout(() => {
-                        this.sfx.subHug.stop();
-                      }, 3000);
-                      this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
-                    } else {
-                      console.log('on reach');
-                      diver.destroy();
-                      this.divers.splice(i, 1, null);
-                      this.pontuation += 1;
-                      this.score.destroy();
-                      this.sfx.rip.play();
-                      this.score = this.add.text(10, 20, `Points: ${this.pontuation}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
-                      shot = false;
-                      console.log('killed');
-                    }
-                  }
-                }
-              });
-              [...this.fishes].forEach((fish, i) => {
-                if (Math.abs(arr[0].y - fish.y) < 30 && Math.abs(arr[0].x - fish.x) < 30) {
-                  console.log('NHAM NHAM...');
-                  this.sfx.eat.play();
-                  fish.destroy();
-                  this.fishes.splice(i, 1, null);
-                  this.player.hp += 1;
-                  this.hp.destroy();
-                  this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('green');
-                }
-              });
+          if (updateFrames % 48 * (i + 1) < 24 * (i + 1)) {
+            fish.y -= 0.2;
+          } else {
+            fish.y += 0.2;
+          }
+
+          if (updateFrames % 48 < 16) {
+            fish.setFrame(0);
+          } else if (updateFrames % 48 < 32) {
+            fish.setFrame(1);
+          } else {
+            fish.setFrame(2);
+          }
+
+          if (fish.x > game.config.width) {
+            fish.x = -(Math.random() * 10);
+            fish.y = (Math.random() * (game.config.width - 200)) + 200;
+          }
+        }
+      });
+      this.fishes = this.fishes.filter((n) => n !== null);
+      if (this.fishes.length < 5) {
+      // let fish = this.add.sprite(Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 'vaquita')
+        const fish = this.add.tileSprite(-Math.random() * game.config.width, (Math.random() * (game.config.height - 200)) + 200, 32, 32, 'fish');
+
+        fish.setScale(1);
+        // fish.setCrop(0, 0, 32, 32);
+        fish.setVisible(true);
+        fish.direction = 1;
+        this.physics.world.enable(fish);
+        // fish.setOrigin(0.5, 0.5)
+        // fish.body.setSize(30, 23);
+        // fish.body.setOffset(0, 3);
+        this.fishes.push(fish);
+      }
+
+      [...this.divers].forEach((diver, i) => {
+        if (diver !== null) {
+          if (diver.type !== 'submarine') {
+            if (updateFrames % 50 + i < i + 10) {
+              diver.setFrame(0);
+            } else if (updateFrames % 50 + i < i + 20) {
+              diver.setFrame(1);
+            } else if (updateFrames % 50 + i < i + 30) {
+              diver.setFrame(2);
+            } else if (updateFrames % 50 + i < i + 40) {
+              diver.setFrame(3);
+            } else if (updateFrames % 50 + i < i + 50) {
+              diver.setFrame(4);
             }
           }
-          if (i < 5) {
-            if (clickDirection < 0) {
-              container.rotation -= grab * (2);
-            } else {
-              container.rotation += grab * (2);
+          if (diver !== carry || (diver.type === 'submarine' && rayOn)) {
+            diver.y += 1 * (diver.velocity ? diver.velocity : 1);
+          } if (diver.y - diver.displayHeight > this.sys.game.config.height) {
+          // diver.setVisible(false)
+          // .setVisible(false)
+            if (diver.type === 'submarine') {
+              diver.ray.destroy();
+              this.submarine = false;
+              this.player.hp -= 10;
+              this.sfx.submarine.setLoop(false);
+              this.sfx.submarine.stop();
+              this.hp.destroy();
+              this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
             }
-            //container.displayHeight += grab;
-          } else if (i < 9) {
-            if (clickDirection < 0) {
-              container.rotation += 2 * grab;
-            } else {
-              container.rotation -= 2 * grab;
+            diver.destroy();
+            this.divers.splice(i, 1, null);
+            this.hp.destroy();
+            this.sfx.rip.play();
+            this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
+            this.player.hp -= 1;
+          }
+
+
+          if (diver.type === 'submarine') {
+            diver.x += 0.5 * diver.direction;
+
+            if (diver.x < 0 || diver.x > game.config.width) {
+              diver.direction = -diver.direction;
+              diver.setScale(-diver.direction, 1);
             }
+          } else if (diver.smart && Math.abs(diver.x - this.mainContainer.x) < 50
+          && Math.abs(diver.y - this.mainContainer.y) < 50) {
+            if (diver.y < this.mainContainer.y) {
+              diver.y -= 5;
+              diver.x -= 5;
+            } else {
+              diver.y += 5;
+              diver.x += 5;
+            }
+            diver.shootClock = 0;
+            this.sfx.push.play();
+            diver.hp -= 0.05;
+            this.player.hp -= 0.05;
+            if (diver.hp < 0) {
+              diver.destroy();
+              this.divers.splice(i, 1, null);
+              this.sfx.rip.play();
+            }
+          } else if (Math.random() < 0.5) {
+            diver.x -= 5;
           } else {
-            if (clickDirection < 0) {
+            diver.x += 5;
+          }
+
+          if (diver.type !== 'submarine' && diver !== null) {
+            if (diver.x <= 0) {
+              diver.x += 25;
+            } else if (diver.x >= game.config.width) {
+              diver.x -= 25;
+            }
+          }
+        }
+      }, this);
+
+      this.divers = this.divers.filter((n) => n !== null);
+
+
+      if (mouseDown && this.divers.length > 0 && this.containers[2].rotation >= 0.1) {
+        const fallX = this.containers[2].localTransform.matrix[4];
+        const fallY = this.containers[2].localTransform.matrix[5];
+        this.divers.forEach((diver, i) => {
+          if (diver.type !== 'submarine' && fallY - diver.y < 50
+          && Math.abs(fallX - diver.x) < 50) {
+            diver.fall = false;
+            carry = diver;
+            carry.id = i;
+          }
+        });
+      }
+
+      if (carry) {
+        carry.y = this.containers[2].localTransform.matrix[5] - 25;
+        carry.x = this.containers[2].localTransform.matrix[4];
+      }
+
+      if (havePower && mouseDown && grab < 0.04) {
+        grab += 0.001;
+        if (true) {
+          this.containers.forEach((container, i, arr) => {
+            if (i === 2 && Math.abs(container.rotation) > 1.1) {
+              if (carry) {
+                carry.destroy();
+                this.divers.splice(carry.id, 1);
+                console.log('killed');
+                this.pontuation += 1;
+                this.score.destroy();
+                this.score = this.add.text(10, 20, `Points: ${this.pontuation}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
+                carry = false;
+                shot = false;
+              } else {
+                this.divers.slice().forEach((diver, i) => {
+                  if (diver !== null) {
+                    if (Math.abs(arr[0].y - diver.y) < 40 && Math.abs(arr[0].x - diver.x) < 50) {
+                      if (diver.type === 'submarine') {
+                        this.player.hp -= 5;
+                        this.hp.destroy();
+                        this.sfx.subHug.play();
+                        setTimeout(() => {
+                          this.sfx.subHug.stop();
+                        }, 3000);
+                        this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
+                      } else {
+                        console.log('on reach');
+                        diver.destroy();
+                        this.divers.splice(i, 1, null);
+                        this.pontuation += 1;
+                        this.score.destroy();
+                        this.sfx.rip.play();
+                        this.score = this.add.text(10, 20, `Points: ${this.pontuation}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
+                        shot = false;
+                        console.log('killed');
+                      }
+                    }
+                  }
+                });
+                [...this.fishes].forEach((fish, i) => {
+                  if (Math.abs(arr[0].y - fish.y) < 30 && Math.abs(arr[0].x - fish.x) < 30) {
+                    console.log('NHAM NHAM...');
+                    this.sfx.eat.play();
+                    fish.destroy();
+                    this.fishes.splice(i, 1, null);
+                    this.player.hp += 1;
+                    this.hp.destroy();
+                    this.hp = this.add.text(10, 40, `HP: ${this.player.hp.toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
+                  }
+                });
+              }
+            }
+            if (i < 5) {
+              if (clickDirection < 0) {
+                container.rotation -= grab * (2);
+              } else {
+                container.rotation += grab * (2);
+              }
+            // container.displayHeight += grab;
+            } else if (i < 9) {
+              if (clickDirection < 0) {
+                container.rotation += 2 * grab;
+              } else {
+                container.rotation -= 2 * grab;
+              }
+            } else if (clickDirection < 0) {
               container.rotation += grab / 1.8;
             } else {
               container.rotation -= grab / 1.8;
             }
-          }
-        });
+          });
+        }
       }
     }
   }

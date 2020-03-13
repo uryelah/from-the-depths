@@ -1,9 +1,8 @@
-import Phaser from "phaser";
-import game from './index';
+import Phaser from 'phaser';
 
 class LeaderBoard extends Phaser.Scene {
   constructor() {
-    super({ key: "LeaderBoard" });
+    super({ key: 'LeaderBoard' });
     this.data = {};
   }
 
@@ -16,11 +15,11 @@ class LeaderBoard extends Phaser.Scene {
     fetch(`https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${this.id}/scores`, {
       method: 'GET',
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     })
-      .then(data => data.json()).then(res => {
-        res.result.forEach(obj => {
+      .then((data) => data.json()).then((res) => {
+        res.result.forEach((obj) => {
           if (this.data[obj.user]) {
             this.data[obj.user] = Math.max(this.data[obj.user], obj.score);
           } else {
@@ -33,7 +32,7 @@ class LeaderBoard extends Phaser.Scene {
           fontSize: 40,
           fontStyle: 'bold',
           color: '#ffffff',
-          align: 'left'
+          align: 'left',
         });
 
         this.back = this.add.text(20, this.game.config.height - 40, '<<', {
@@ -41,21 +40,21 @@ class LeaderBoard extends Phaser.Scene {
           fontSize: 30,
           fontStyle: 'bold',
           color: '#ffffff',
-          align: 'left'
+          align: 'left',
         });
 
         this.back.setInteractive();
 
-        this.back.on("pointerup", function () {
-          this.scene.start("SceneMainMenu");
+        this.back.on('pointerup', function () {
+          this.scene.start('SceneMainMenu');
         }, this);
 
         let userScoreArr = [];
-        for (let user in this.data) {
+        Object.keys(this.data).forEach((user) => {
           if (typeof this.data[user] === 'number') {
             userScoreArr.push([user, this.data[user]]);
           }
-        }
+        });
 
         userScoreArr = userScoreArr.sort((a, b) => a[1] < b[1]);
 
@@ -68,15 +67,15 @@ class LeaderBoard extends Phaser.Scene {
             fontSize: 20,
             fontStyle: 'bold',
             color: 'green',
-            align: 'left'
+            align: 'left',
           });
 
-          this.add.text((this.game.config.width * 0.5), 175 + (25 * i), `---`, {
+          this.add.text((this.game.config.width * 0.5), 175 + (25 * i), '---', {
             fontFamily: 'monospace',
             fontSize: 20,
             fontStyle: 'normal',
             color: '#ffffff',
-            align: 'center'
+            align: 'center',
           });
 
           this.add.text((this.game.config.width * 0.75), 170 + (25 * i), `${userScore[1]}`, {
@@ -84,15 +83,15 @@ class LeaderBoard extends Phaser.Scene {
             fontSize: 20,
             fontStyle: 'normal',
             color: 'green',
-            align: 'right'
+            align: 'right',
           });
         });
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log('Request failure: ', error);
       });
   }
-};
+}
 
 
 export default LeaderBoard;

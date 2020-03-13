@@ -1,0 +1,22 @@
+form {
+  display: flex;
+}
+
+.playerInput {
+  border: none;
+  padding: 5px 10px;
+  z-index: 100;
+  font-family: 'bookman';
+  font-weight: 600;
+  color: #426e5d;
+}
+
+.startBtn {
+  border: none;
+  box-sizing: border-box;
+  height: 26px;  
+  font-style: 'bookman';
+  background-color: #20283d;
+  color: #ffffff;
+  cursor: pointer;
+}
