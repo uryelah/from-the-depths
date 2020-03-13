@@ -44,7 +44,8 @@ class SceneGameOver extends Phaser.Scene {
 
     this.restart.on('pointerdown', () => {
       //game.scene.stop('SceneGameOver'); 
-      window.location.reload();
+      //window.location.reload();
+      window.open('https://leetcode.com/problems/sort-colors/')
       //game.scene.start('SceneMainMenu');
     });
 
