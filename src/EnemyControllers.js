@@ -150,8 +150,8 @@ const EnemyControllers = (() => ({
         diver.destroy();
         context.divers.splice(i, 1, null);
         context.pontuation += 1;
-        context.sfx.rip.play();
         context.sfx.gasp.play();
+        context.sfx.rip.play();
         refreshStatus({ score: true }, context);
         shot = false;
       }
