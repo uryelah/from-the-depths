@@ -1,10 +1,9 @@
+/* eslint-disable no-param-reassign */
 import EnemyControllers from '../Enemy/EnemyControllers';
-
-import FishControllers from '../Enemy/EnemyControllers';
 
 import Utils from '../helpers/Utils';
 
-const { enemyGrabbed, enemySqueezed } = EnemyControllers;
+const { enemySqueezed } = EnemyControllers;
 
 const { refreshStatus } = Utils;
 
@@ -59,6 +58,7 @@ const PlayerBody = (config) => {
         context.player.add2Score(1);
         refreshStatus({ score: true }, context);
         setCarrying(false);
+        // eslint-disable-next-line no-param-reassign
         shot = false;
       } else {
         [...context.divers].forEach((diver, l) => enemySqueezed(context, diver, l, shot, arr));

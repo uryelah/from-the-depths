@@ -4,7 +4,7 @@ import SceneGameOver from './scenes/SceneGameOver';
 
 import SceneMainMenu from './scenes/SceneMainMenu';
 
-import TentacleTest from './TentacleTest';
+import TentacleTest from './scenes/TentacleTest';
 
 import LeaderBoard from './scenes/LeaderBoard';
 import cleanKeyPress from './helpers/dom';

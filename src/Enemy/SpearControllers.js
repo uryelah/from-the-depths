@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const SpearControllers = (() => ({
   moveSpears: (context) => {
     context.spears.forEach((spear, i) => {

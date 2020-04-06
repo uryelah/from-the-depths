@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Fish from './Fish';
 
 import Utils from '../helpers/Utils';

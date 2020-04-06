@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const Utils = (() => ({
   absSubstract: (a, b) => Math.abs(Math.abs(a) - Math.abs(b)),
 
@@ -17,12 +18,16 @@ const Utils = (() => ({
     const { score, hp } = type;
 
     if (score) {
-      element.score && element.score.destroy();
+      if (element.score) {
+        element.score.destroy();
+      }
       element.score = element.add.text(10, 20, `Points: ${element.player.getScore()}`, { fontFamily: '"Roboto Condensed"' }).setColor('red');
     }
 
     if (hp) {
-      element.hp && element.hp.destroy();
+      if (element.hp) {
+        element.hp.destroy();
+      }
       element.hp = element.add.text(10, 40, `HP: ${element.player.getHp().toFixed(2)}`, { fontFamily: '"Roboto Condensed"' }).setColor('yellow');
     }
   },
@@ -46,7 +51,7 @@ const Utils = (() => ({
     })
       .then((data) => data.json()).then((res) => res.result)
       .catch((error) => {
-        console.log('Request failure: ', error);
+        throw new Error(error);
       });
   },
 }))();

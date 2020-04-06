@@ -1,11 +1,14 @@
 const Text = (() => ({
-  addSubtitle: (location, alignement, cor, text) => location.add.text(location.game.config.width * 0.5, location.game.config.height - 60, text, {
-    fontFamily: 'bookman',
-    fontSize: 24,
-    fontStyle: 'bold',
-    color: cor,
-    align: alignement,
-  }),
+  addSubtitle: (location, alignement, cor, text) => location.add.text(
+    location.game.config.width * 0.5,
+    location.game.config.height - 60,
+    text, {
+      fontFamily: 'bookman',
+      fontSize: 24,
+      fontStyle: 'bold',
+      color: cor,
+      align: alignement,
+    }),
 
   addListText: (location, alignement, cor, text, i, left, weight = 'bold') => location.add.text((location.game.config.width * left), 170 + (25 * i), text, {
     fontFamily: 'bookman',

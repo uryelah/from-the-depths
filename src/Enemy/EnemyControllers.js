@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Enemy from './Enemy';
 
 import Utils from '../helpers/Utils';
@@ -158,13 +159,19 @@ const EnemyControllers = (() => ({
     }
   },
 
-  enemyCollisions: (context, diver, i, playerBody, shot) => {
+  // eslint-disable-next-line no-unused-vars
+  enemyCollisions: (context, diver, playerBody, shot, i) => {
     if (diver === null) { return; }
     if (diver.smart) {
       if (diver.shootClock === 0) {
         diver.shootClock = 20;
         const spear = context.add.tileSprite(diver.x, diver.y, 16, 16, 'shot');
-        spear.velocity = { goal: [context.mainContainer.x, context.mainContainer.y], x: (context.mainContainer.x - diver.x) / 15, y: (context.mainContainer.y - diver.y) / 15 };
+        spear.velocity = {
+          goal: [context.mainContainer.x,
+            context.mainContainer.y],
+          x: (context.mainContainer.x - diver.x) / 15,
+          y: (context.mainContainer.y - diver.y) / 15,
+        };
 
         context.spears.push(spear);
         context.physics.world.enable(spear);
@@ -223,7 +230,7 @@ const EnemyControllers = (() => ({
             context.sfx.ray.play();
           }
         }, null, context);
-        curColide = curColide.list[1];
+        [, curColide] = curColide.list;
       }
     } else if (diver.type === 'submarine' && diver.ray && !Math.abs(diver.x - context.game.config.width / 2) < 30) {
       diver.ray.setVisible(false);

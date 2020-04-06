@@ -1,24 +1,24 @@
 import Phaser from 'phaser';
 
-import Player from './Player/Player';
+import Player from '../Player/Player';
 
-import PlayerBody from './Player/PlayerBody';
+import PlayerBody from '../Player/PlayerBody';
 
-import Enemy from './Enemy/Enemy';
+import Enemy from '../Enemy/Enemy';
 
-import Bubble from './Bubble/Bubble';
+import Bubble from '../Bubble/Bubble';
 
-import BubbleControllers from './Bubble/BubbleControlers';
+import BubbleControllers from '../Bubble/BubbleControlers';
 
-import SpearControllers from './Enemy/SpearControllers';
+import SpearControllers from '../Enemy/SpearControllers';
 
-import EnemyControllers from './Enemy/EnemyControllers';
+import EnemyControllers from '../Enemy/EnemyControllers';
 
-import FishControllers from './Fish/FishControllers';
+import FishControllers from '../Fish/FishControllers';
 
-import Utils from './helpers/Utils';
+import Utils from '../helpers/Utils';
 
-import PreLoader from './helpers/Preloader';
+import PreLoader from '../helpers/Preloader';
 
 const { bubbleLife } = BubbleControllers;
 
@@ -27,7 +27,7 @@ const {
 } = Utils;
 
 const {
-  populateEnemies, enemyShot, enemyMovement, enemyCollisions, enemyGrabbed, enemySqueezed,
+  populateEnemies, enemyShot, enemyMovement, enemyCollisions, enemyGrabbed,
 } = EnemyControllers;
 
 const {
