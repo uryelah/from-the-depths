@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
 
-import SceneGameOver from './SceneGameOver';
+import SceneGameOver from './scenes/SceneGameOver';
 
-import SceneMainMenu from './SceneMainMenu';
+import SceneMainMenu from './scenes/SceneMainMenu';
 
 import TentacleTest from './TentacleTest';
 
-import LeaderBoard from './LeaderBoard';
+import LeaderBoard from './scenes/LeaderBoard';
 import cleanKeyPress from './helpers/dom';
 
 cleanKeyPress();

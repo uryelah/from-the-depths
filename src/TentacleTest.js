@@ -1,20 +1,20 @@
 import Phaser from 'phaser';
 
-import Player from './Player';
+import Player from './Player/Player';
 
-import PlayerBody from './PlayerBody';
+import PlayerBody from './Player/PlayerBody';
 
-import Enemy from './Enemy';
+import Enemy from './Enemy/Enemy';
 
-import Bubble from './Bubble';
+import Bubble from './Bubble/Bubble';
 
-import BubbleControllers from './BubbleControlers';
+import BubbleControllers from './Bubble/BubbleControlers';
 
-import SpearControllers from './SpearControllers';
+import SpearControllers from './Enemy/SpearControllers';
 
-import EnemyControllers from './EnemyControllers';
+import EnemyControllers from './Enemy/EnemyControllers';
 
-import FishControllers from './FishControllers';
+import FishControllers from './Fish/FishControllers';
 
 import Utils from './helpers/Utils';
 
