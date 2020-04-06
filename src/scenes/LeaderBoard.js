@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
 import Text from '../helpers/text';
@@ -23,7 +24,7 @@ class LeaderBoard extends Phaser.Scene {
         'Content-Type': 'application/json',
       },
     })
-      .then((data) => data.json()).then((res) => {
+      .then(data => data.json()).then((res) => {
         res.result.forEach((obj) => {
           if (this.data[obj.user]) {
             this.data[obj.user] = Math.max(this.data[obj.user], obj.score);
@@ -49,6 +50,7 @@ class LeaderBoard extends Phaser.Scene {
 
         userScoreArr = userScoreArr.sort((a, b) => a[1] < b[1]);
 
+        // eslint-disable-next-line array-callback-return
         userScoreArr.some((userScore, i) => {
           if (i > 14) {
             return;

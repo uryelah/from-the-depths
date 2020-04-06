@@ -56,15 +56,15 @@ const EnemyControllers = (() => ({
   enemyMovement: (context, enemy, i, frames, playerBody) => {
     if (enemy !== null) {
       if (enemy.type !== 'submarine') {
-        if (frames % 50 + i < i + 10) {
+        if ((frames % 50) + i < i + 10) {
           if (enemy) { enemy.setFrame(0); }
-        } else if (frames % 50 + i < i + 20) {
+        } else if ((frames % 50) + i < i + 20) {
           if (enemy) { enemy.setFrame(1); }
-        } else if (frames % 50 + i < i + 30) {
+        } else if ((frames % 50) + i < i + 30) {
           if (enemy) { enemy.setFrame(2); }
-        } else if (frames % 50 + i < i + 40) {
+        } else if ((frames % 50) + i < i + 40) {
           if (enemy) { enemy.setFrame(3); }
-        } else if (frames % 50 + i < i + 50) {
+        } else if ((frames % 50) + i < i + 50) {
           if (enemy) { enemy.setFrame(4); }
         }
       }

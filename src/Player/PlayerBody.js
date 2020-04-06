@@ -226,7 +226,8 @@ const PlayerBody = (config) => {
       context.head.x -= 0.5;
     }
 
-    if (e.position.y < context.game.config.width / 2 && context.head.y > context.game.config.width / 2) {
+    if (e.position.y < context.game.config.width / 2
+      && context.head.y > context.game.config.width / 2) {
       context.head.y -= 0.5;
     } else if (e.position.y > context.game.config.width / 1.2) {
       context.head.y += 0.5;

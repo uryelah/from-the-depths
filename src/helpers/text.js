@@ -8,7 +8,8 @@ const Text = (() => ({
       fontStyle: 'bold',
       color: cor,
       align: alignement,
-    }),
+    },
+  ),
 
   addListText: (location, alignement, cor, text, i, left, weight = 'bold') => location.add.text((location.game.config.width * left), 170 + (25 * i), text, {
     fontFamily: 'bookman',

@@ -21,7 +21,7 @@ const FishControllers = (() => ({
       if (fish !== null) {
         fish.x += 0.5 * fish.direction;
 
-        if (frames % 48 * (i + 1) < 24 * (i + 1)) {
+        if ((frames % 48) * (i + 1) < 24 * (i + 1)) {
           fish.y -= 0.2;
         } else {
           fish.y += 0.2;
@@ -42,7 +42,7 @@ const FishControllers = (() => ({
       }
     });
 
-    return fishBag.filter((n) => n !== null);
+    return fishBag.filter(n => n !== null);
   },
 
   replenishFishes: (context) => {
