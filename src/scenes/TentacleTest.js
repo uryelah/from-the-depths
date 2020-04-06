@@ -221,11 +221,11 @@ class TentacleTest extends Phaser.Scene {
       !this.over && this.divers.forEach((diver, i) => enemyCollisions(this,
         diver, i, playerBody, shot));
 
-      this.divers = this.divers.filter(diver => diver !== null);
+      this.divers = this.divers.filter((diver) => diver !== null);
 
       SpearControllers.moveSpears(this);
 
-      this.spears = this.spears.filter(s => s !== null);
+      this.spears = this.spears.filter((s) => s !== null);
 
       if (this.player.isStill() && this.player.getHp() + 0.05 <= 200) {
         this.player.incrementHp(0.05);
@@ -237,7 +237,7 @@ class TentacleTest extends Phaser.Scene {
   }
 
   update() {
-    const calculateLevel = num => Math.floor(num / 500);
+    const calculateLevel = (num) => Math.floor(num / 500);
 
     this.level = calculateLevel(this.frame);
     if (!this.over) {
@@ -254,7 +254,7 @@ class TentacleTest extends Phaser.Scene {
       [...this.divers].forEach((diver, i) => enemyMovement(this,
         diver, i, this.updateFrames, playerBody), this);
 
-      this.divers = this.divers.filter(n => n !== null);
+      this.divers = this.divers.filter((n) => n !== null);
 
       if (mouseDown && this.divers.length > 0 && this.containers[2].rotation >= 0.1) {
         const fallX = this.containers[2].localTransform.matrix[4];
