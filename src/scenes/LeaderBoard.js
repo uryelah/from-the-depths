@@ -24,7 +24,7 @@ class LeaderBoard extends Phaser.Scene {
         'Content-Type': 'application/json',
       },
     })
-      .then((data) => data.json()).then((res) => {
+      .then(data => data.json()).then((res) => {
         res.result.forEach((obj) => {
           if (this.data[obj.user]) {
             this.data[obj.user] = Math.max(this.data[obj.user], obj.score);

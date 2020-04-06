@@ -1,3 +1,4 @@
+/* eslint-igonre */
 const presets = [
   [
     '@babel/env',

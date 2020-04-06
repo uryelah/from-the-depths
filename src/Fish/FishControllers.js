@@ -42,7 +42,7 @@ const FishControllers = (() => ({
       }
     });
 
-    return fishBag.filter((n) => n !== null);
+    return fishBag.filter(n => n !== null);
   },
 
   replenishFishes: (context) => {
