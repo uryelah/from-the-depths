@@ -49,7 +49,7 @@ const Utils = (() => ({
         score: context.player.getScore(),
       }),
     })
-      .then(data => data.json()).then(res => res.result)
+      .then((data) => data.json()).then((res) => res.result)
       .catch((error) => {
         throw new Error(error);
       });
@@ -57,3 +57,4 @@ const Utils = (() => ({
 }))();
 
 export default Utils;
+module.exports = Utils;
