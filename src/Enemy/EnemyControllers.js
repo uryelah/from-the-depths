@@ -178,6 +178,7 @@ const EnemyControllers = (() => ({
         spear.setOrigin(0.5, 0.5);
         spear.body.setSize(16, 16);
         context.physics.add.collider(spear, context.mainContainer, () => {
+          console.log(playerBody, playerBody.isCarrying);
           const grabbedDiver = playerBody.isCarrying();
           if (grabbedDiver) {
             grabbedDiver.hp -= 1;

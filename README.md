@@ -35,9 +35,11 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
+* [About](#about)
+* [About the Game](#about-the-game)
 * [How to play](#how-to-play)
 * [Characters](#characters)
+* [Scenes](#scenes)
 * [Prerequisites](#prerequisites)
 * [Built With](#built-with)
 * [Commands](#available-commands)
@@ -46,7 +48,17 @@
 * [CopyRight/Attributions](#copyRight/Attributions)
 
 
-## About The Project
+## About
+
+This project was about making a shooter game, similar to space asteroids, using the Phaser3 Javascript game engine.
+
+In this project I implemented a game with projectiles comming both from and towards the player, player sprite movement, enemy 'downward' movement and collisions, with an oceanic theme.
+
+Project requirements [here](https://www.notion.so/Shooter-game-203e819041c7486bb36f9e65faecba27).
+
+Repository: https://github.com/uryelah/from-the-depths
+
+## About The Game
 
 **From the depths** consists of a shooter game with the twist that it happens under the sea instead of the in space.
 
@@ -98,6 +110,10 @@ The game starts very slow but gets harder and harder with time, so good luck sta
 What a handsome sea creature!
 Sure it has only one tentacle, but hey, no one is perfect.
 
+You start with 200 hp and loses if reaching 0 or lower hp.
+
+Your hp auto increments by 0.05 points by game frame when you are iddle for more than 0.3 seconds. 
+
 ### Dumb humans
 
 How there them to invade and destroy your home, look at their dumb little legs.
@@ -108,6 +124,10 @@ They cause damage if you let them go to the bottom of the screen. Can be squeeze
 These are so dumb that they can be used as meat-shields to protect you from knives. 
 Has low hp.
 
+This basic enemy has between 1 and 2 hp and it takes 1 or 2 bubble attacks to kill it or 1 tentacle squeeze attack. 
+
+This enemy only decrements the player hp by 1 point when it reaches the bottom of the screen.
+
 ### Armed dumb humans
 
 Look at that, didn't their mother tell them to not play with knives?
@@ -116,6 +136,13 @@ Look at that, didn't their mother tell them to not play with knives?
 
 They do the same things the regular humans do plus shooting and running away from you.
 Has higher hp.
+
+This enemy has 3 hp and it takes 3 bubble attack to kill it or 1 tentacle squeeze attack. 
+
+Its projectiles move toward the direction the player tentacle was upon them being shot and they take 0.5 hp from the player status. 
+It also decrements the player hp by 1 point upon reaching the bottom of the screen.
+
+If you approach this enemy too close it will reset their projectile shooting time out to zero, shooting with more frequency, and get away from the player tentacle. In the proccess it will take 0.25 points of damage though.
 
 ### Submarine
 
@@ -126,6 +153,8 @@ Has very high hp.
 
 Shootable but not squeezable, too much metal. Beaware when it reaches the middle of the screen, it likes to shoot anti-sea-creature rays there.
 
+This enemy decrements the player hp by 10 points when it reaches the bottom of the screen, 5 points if squeezed by the player or 0.025 points by frame of the game if the player is caugh under its ray at the center of the screen.
+
 ### Vaquita
 
 Looks at this cute and pure creature, so happy and well in it's little life. We must protect it, but also eat it because the HP won't replenosh itself, not fast enought at least.
@@ -134,7 +163,27 @@ Looks at this cute and pure creature, so happy and well in it's little life. We 
 
 They taste like 2-day-old burger king fries.
 
+It increments the player hp by 1 point when squeezed.
 -----
+
+## Scenes
+
+This game consists of four scenes:
+
+- The Main Menu scene
+This scene takes you to the Leader Board scene and the Main Game scene.
+<img src='./assets/Screenshot_2020-04-06 From the depths .png' width='300'>
+
+- The Main Game scene
+In this scene you can play the actual game and it takes you to the Game Over scene if your hp drops to 0 points.
+<img src='./assets/Screenshot_2020-04-06 From the depths (2).png' width='300'>
+
+- The Game Over scene
+This scene appears on losing the Game and has a button to refresh the page and play again.
+
+- The Leader Board scene
+This scene is accessed from the Main Menu and has a link back to it. It shows the top 15 scores recorded in the API.
+<img src='./assets/Screenshot_2020-04-06 From the depths (1).png' width='300'>
 
 ## Prerequisites
 
