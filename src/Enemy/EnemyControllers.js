@@ -161,7 +161,6 @@ const EnemyControllers = (() => ({
 
   // eslint-disable-next-line no-unused-vars
   enemyCollisions: (context, diver, playerBody, shot, i) => {
-    console.log(playerBody);
     if (diver === null) { return; }
     if (diver.smart) {
       if (diver.shootClock === 0) {
@@ -180,7 +179,7 @@ const EnemyControllers = (() => ({
         spear.body.setSize(16, 16);
         context.physics.add.collider(spear, context.mainContainer, () => {
           console.log(playerBody, playerBody.isCarrying);
-          const grabbedDiver = playerBody.isCarrying();
+          const grabbedDiver = playerBody.isCarrying ? playerBody.isCarrying() : null;
           if (grabbedDiver) {
             grabbedDiver.hp -= 1;
 
