@@ -161,6 +161,7 @@ const EnemyControllers = (() => ({
 
   // eslint-disable-next-line no-unused-vars
   enemyCollisions: (context, diver, playerBody, shot, i) => {
+    console.log(playerBody);
     if (diver === null) { return; }
     if (diver.smart) {
       if (diver.shootClock === 0) {
