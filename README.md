@@ -180,6 +180,7 @@ In this scene you can play the actual game and it takes you to the Game Over sce
 
 - The Game Over scene
 This scene appears on losing the Game and has a button to refresh the page and play again.
+<img src='./assets/Screenshot_2020-04-06 From the depths (3).png' width='300'>
 
 - The Leader Board scene
 This scene is accessed from the Main Menu and has a link back to it. It shows the top 15 scores recorded in the API.
