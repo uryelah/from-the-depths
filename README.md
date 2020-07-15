@@ -8,12 +8,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://uryelah.github.io/from-the-depths/">
+  <a href="https://depths.web.app/">
     <img src="./assets/head.png" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">
-    <a href="https://uryelah.github.io/from-the-depths/">
+    <a href="https://depths.web.app/">
     From the depths...
     </a>
   </h1>
@@ -21,7 +21,7 @@
   <p align="center">
     The humans are coming, protect the seabed.
     <br />
-    <a href="https://uryelah.github.io/from-the-depths/"><strong>Play it here »</strong></a>
+    <a href="https://depths.web.app/"><strong>Play it here »</strong></a>
     <br />
     <br />
     <a href="https://github.com/uryelah/from-the-depths/issues">Report Bug</a>
@@ -52,7 +52,7 @@
 
 This project was about making a shooter game, similar to space asteroids, using the Phaser3 Javascript game engine.
 
-In this project I implemented a game with projectiles comming both from and towards the player, player sprite movement, enemy 'downward' movement and collisions, with an oceanic theme.
+In this project, I implemented a game with projectiles coming both from and towards the player, player sprite movement, enemy 'downward' movement, and collisions, with an oceanic theme.
 
 Project requirements [here](https://www.notion.so/Shooter-game-203e819041c7486bb36f9e65faecba27).
 
@@ -64,7 +64,7 @@ Repository: https://github.com/uryelah/from-the-depths
 
 You control an ancient, squid-like, sea creature that has their domains invaded by humans, much to its demise. 
 
-The games object is to get points from eliminating the humans and its machines, while keeping your hp, or health points, above zero.
+The game's object is to get points from eliminating the humans and its machines, while keeping your hp, or health points, above zero.
 
 All the art feature in this game is original if not indicated otherwise at the Attributions section.
 
@@ -83,9 +83,9 @@ All the art feature in this game is original if not indicated otherwise at the A
 
 [![Product Name Screen Shot][product-screenshot]](https://uryelah.github.io/from-the-depths/)
 
-This game is completelly controlled with your mouse or touch pad.
+This game is completely controlled with your mouse or touchpad.
 
-To start choose your name, it will be used to save your score at the end.
+To start, choose your name, it will be used to save your score at the end.
 
 Move your mouse and your character tentacle will follow it.
 
@@ -95,7 +95,7 @@ Click and hold to squeeze humans to death or to eat fish and get more hp.
 
 Click and hold while moving your cursor, for less time, to carry a human around.
 
-Avoid human projectiles or carry a dumb humans to use as your shield, good for a maximum of two shots.
+Avoid human projectiles or carry a dumb human to use as your shield, good for a maximum of two shots.
 
 Avoid the submarine ray attacks.
 
@@ -112,7 +112,7 @@ Sure it has only one tentacle, but hey, no one is perfect.
 
 You start with 200 hp and loses if reaching 0 or lower hp.
 
-Your hp auto increments by 0.05 points by game frame when you are iddle for more than 0.3 seconds. 
+Your hp auto increments by 0.05 points by game frame when you are idle for more than 0.3 seconds. 
 
 ### Dumb humans
 
@@ -135,29 +135,29 @@ Look at that, didn't their mother tell them to not play with knives?
 <img src="./assets/smart.gif">
 
 They do the same things the regular humans do plus shooting and running away from you.
-Has higher hp.
+Has a higher hp.
 
-This enemy has 3 hp and it takes 3 bubble attack to kill it or 1 tentacle squeeze attack. 
+This enemy has 3 hp and it takes 3 bubble attacks to kill it or 1 tentacle squeeze attack. 
 
 Its projectiles move toward the direction the player tentacle was upon them being shot and they take 0.5 hp from the player status. 
 It also decrements the player hp by 1 point upon reaching the bottom of the screen.
 
-If you approach this enemy too close it will reset their projectile shooting time out to zero, shooting with more frequency, and get away from the player tentacle. In the proccess it will take 0.25 points of damage though.
+If you approach this enemy too close it will reset their projectile shooting time out to zero, shooting with more frequency, and get away from the player tentacle. In the process, it will take 0.25 points of damage though.
 
 ### Submarine
 
-Maybe there are humans inside? Maybe it's controlled remote. Who cares though, it's invading YOUR PROPERTY!
+Maybe there are humans inside? Maybe it's controlled remotely. Who cares though, it's invading YOUR PROPERTY!
 Has very high hp.
 
 <img src="./assets/submarine.gif">
 
-Shootable but not squeezable, too much metal. Beaware when it reaches the middle of the screen, it likes to shoot anti-sea-creature rays there.
+Shootable but not squeezable, too much metal. Be aware when it reaches the middle of the screen, it likes to shoot anti-sea-creature rays there.
 
-This enemy decrements the player hp by 10 points when it reaches the bottom of the screen, 5 points if squeezed by the player or 0.025 points by frame of the game if the player is caugh under its ray at the center of the screen.
+This enemy decrements the player hp by 10 points when it reaches the bottom of the screen, 5 points if squeezed by the player or 0.025 points by frame of the game if the player is caught under its ray at the center of the screen.
 
 ### Vaquita
 
-Looks at this cute and pure creature, so happy and well in it's little life. We must protect it, but also eat it because the HP won't replenosh itself, not fast enought at least.
+Looks at this cute and pure creature, so happy and well in its little life. We must protect it, but also eat it because the HP won't replenish itself, not fast enough at least.
 
 <img src="./assets/vaquita.gif">
 
@@ -196,7 +196,7 @@ Simply access [this link](https://uryelah.github.io/from-the-depths/) and enjoy 
 
 **Install the game locally**
 
-1. Make sure you have [node installed](https://nodejs.org/en/download/) in you local environment.
+1. Make sure you have [node installed](https://nodejs.org/en/download/) in your local environment.
 
 2. Download or clone this repository
 
