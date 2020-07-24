@@ -261,6 +261,17 @@ POKOMOKO - [Animated Ocean Water Tile](https://opengameart.org/content/animated-
 
 -------
 
+## Contact
+
+👤 **Sarah Uryelah Silva Chamorro**
+
+- Github: [@uryelah](https://github.com/uryelah)
+- Twitter: [@sarah_chamorro](https://twitter.com/sarah_chamorro)
+- Linkedin: [Sharah Chamorro](https://www.linkedin.com/in/uryelah/)
+- Email: [sarahchamorro@gmail.com](sarahchamorro@gmail.com)
+
+-------
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
 [contributors-url]: https://github.com/uryelah/from-the-depths/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
