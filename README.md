@@ -40,6 +40,7 @@
 * [How to play](#how-to-play)
 * [Characters](#characters)
 * [Scenes](#scenes)
+* [Future Features](#future-features)
 * [Prerequisites](#prerequisites)
 * [Built With](#built-with)
 * [Commands](#available-commands)
@@ -164,6 +165,7 @@ Looks at this cute and pure creature, so happy and well in its little life. We m
 They taste like 2-day-old burger king fries.
 
 It increments the player hp by 1 point when squeezed.
+
 -----
 
 ## Scenes
@@ -185,6 +187,18 @@ This scene appears on losing the Game and has a button to refresh the page and p
 - The Leader Board scene
 This scene is accessed from the Main Menu and has a link back to it. It shows the top 15 scores recorded in the API.
 <img src='./assets/Screenshot_2020-04-06 From the depths (1).png' width='300'>
+
+-------
+
+## Future Features
+
+- Player vs Player mode
+
+- Levels
+
+- Long and short effect buffs
+
+-------
 
 ## Prerequisites
 
